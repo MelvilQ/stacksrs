@@ -1,10 +1,10 @@
-package de.melvil.stacksrs;
+package de.melvil.stacksrs.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +13,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ReviewActivity extends ActionBarActivity {
+import de.melvil.stacksrs.model.Card;
+import de.melvil.stacksrs.model.Deck;
+
+public class ReviewActivity extends AppCompatActivity {
 
     private TextView questionText;
     private TextView answerText;
@@ -21,7 +24,7 @@ public class ReviewActivity extends ActionBarActivity {
     private Button answerButton;
     private Button rightButton;
 
-    private CardStack stack;
+    private Deck stack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +58,7 @@ public class ReviewActivity extends ActionBarActivity {
             }
         });
 
-        stack = CardStack.loadCardStack("default");
+        stack = Deck.loadDeck("default");
         showNextQuestion();
     }
 
@@ -145,7 +148,7 @@ public class ReviewActivity extends ActionBarActivity {
                         Toast.makeText(getApplicationContext(),
                                 "Answer is empty.", Toast.LENGTH_SHORT).show();
                     else {
-                        stack.getNextCardToReview().edit(q, a);
+                        stack.editCurrentCard(q, a);
                         showNextQuestion();
                         dialog.dismiss();
                     }

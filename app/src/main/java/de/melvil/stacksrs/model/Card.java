@@ -1,4 +1,4 @@
-package de.melvil.stacksrs;
+package de.melvil.stacksrs.model;
 
 public class Card {
 
@@ -31,9 +31,5 @@ public class Card {
 
     public void setLevel(int level){
         this.level = level;
-    }
-
-    public double getScore(){
-        return level * 0.1;
     }
 }

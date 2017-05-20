@@ -1,4 +1,4 @@
-package de.melvil.stacksrs;
+package de.melvil.stacksrs.model;
 
 import android.os.Environment;
 
@@ -7,36 +7,49 @@ import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class CardStack {
+public class Deck {
 
-    private String name = "default";
+    private String name;
+    private String languageFront;
+    private String languageBack;
+    private boolean useTTS = false;
+
     private List<Card> stack = new ArrayList<>();
-    private Random random = new Random(System.currentTimeMillis());
+    private static Random random = new Random(System.currentTimeMillis());
 
-    public static CardStack loadCardStack(String name) {
+    public Deck(){
+
+    }
+
+    public Deck(String name){
+        this.name = name;
+    }
+
+    public static Deck loadDeck(String name) {
         try {
             Gson gson = new Gson();
             File file = new File(Environment.getExternalStorageDirectory()
                     + "/StackSRS/" + name + ".txt");
-            return gson.fromJson(FileUtils.readFileToString(file), CardStack.class);
+            return gson.fromJson(FileUtils.readFileToString(file), Deck.class);
         } catch (Exception e) {
             e.printStackTrace();
-            return new CardStack();
+            return new Deck();
         }
     }
 
-    public void saveCardStack() {
+    public void saveDeck() {
         try {
             Gson gson = new Gson();
             File file = new File(Environment.getExternalStorageDirectory()
                     + "/StackSRS/" + name + ".txt");
             FileUtils.writeStringToFile(file, gson.toJson(this));
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -60,7 +73,7 @@ public class CardStack {
             card.setLevel(Math.max(0, card.getLevel() - 2));
             stack.add(2, card);
         }
-        saveCardStack();
+        saveDeck();
     }
 
     public void addNewCard(Card newCard) {
@@ -68,34 +81,27 @@ public class CardStack {
             stack.add(newCard);
         else
             stack.add(2, newCard);
-        saveCardStack();
+        saveDeck();
     }
 
     public void editCurrentCard(String front, String back){
         stack.get(0).edit(front, back);
-        saveCardStack();
+        saveDeck();
     }
 
     public boolean deleteCurrentCard(){
         if(stack.size() > 1) {
             stack.remove(0);
-            saveCardStack();
+            saveDeck();
             return true;
         } else {
             return false;
         }
     }
 
-    public void shuffle() {
+    public void shuffleDeck() {
         Collections.shuffle(stack);
-        saveCardStack();
-    }
-
-    public double getScore() {
-        double score = 0.0;
-        for (Card c : stack)
-            score += c.getScore();
-        return score;
+        saveDeck();
     }
 
 }

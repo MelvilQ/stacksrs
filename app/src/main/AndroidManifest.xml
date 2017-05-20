@@ -15,7 +15,7 @@
 
         <activity
             android:name="DeckListActivity"
-            android:label="Deck Collection">
+            android:label="StackSRS">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +29,7 @@
 
         <activity
             android:name="DeckDownloadActivity"
-            android:label="Download Deck" />
+            android:label="StackSRS" />
     </application>
 
 </manifest>

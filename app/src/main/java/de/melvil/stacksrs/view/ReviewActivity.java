@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import de.melvil.stacksrs.model.Card;
 import de.melvil.stacksrs.model.Deck;
 
@@ -24,7 +26,7 @@ public class ReviewActivity extends AppCompatActivity {
     private Button answerButton;
     private Button rightButton;
 
-    private Deck stack;
+    private Deck deck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +42,14 @@ public class ReviewActivity extends AppCompatActivity {
         wrongButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stack.putReviewedCardBack(false);
+                deck.putReviewedCardBack(false);
                 showNextQuestion();
             }
         });
         rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stack.putReviewedCardBack(true);
+                deck.putReviewedCardBack(true);
                 showNextQuestion();
             }
         });
@@ -58,12 +60,19 @@ public class ReviewActivity extends AppCompatActivity {
             }
         });
 
-        stack = Deck.loadDeck("default");
+        String deckName = getIntent().getStringExtra("deck name");
+        try {
+            deck = Deck.loadDeck(deckName);
+        } catch(IOException e){
+            Toast.makeText(getApplicationContext(), "Deck could not be loaded...",
+                    Toast.LENGTH_SHORT).show();
+            // TODO better error handling
+        }
         showNextQuestion();
     }
 
     private void showNextQuestion(){
-        questionText.setText(stack.getNextCardToReview().getFront());
+        questionText.setText(deck.getNextCardToReview().getFront());
         answerText.setText("");
         wrongButton.setVisibility(View.GONE);
         rightButton.setVisibility(View.GONE);
@@ -71,7 +80,7 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     private void showAnswer(){
-        answerText.setText(stack.getNextCardToReview().getBack());
+        answerText.setText(deck.getNextCardToReview().getBack());
         wrongButton.setVisibility(View.VISIBLE);
         rightButton.setVisibility(View.VISIBLE);
         answerButton.setVisibility(View.GONE);
@@ -80,18 +89,18 @@ public class ReviewActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add("Add new card");
-        menu.add("Edit current card");
-        menu.add("Delete card");
+        menu.add("Add New Card");
+        menu.add("Edit Current Card");
+        menu.add("Delete Card");
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getTitle().equals("Add new card")){
+        if(item.getTitle().equals("Add New Card")){
             final Dialog dialog = new Dialog(ReviewActivity.this);
             dialog.setContentView(R.layout.card_dialog);
-            dialog.setTitle("Add new card");
+            dialog.setTitle("Add New Card");
             final EditText questionEdit = (EditText) dialog.findViewById(R.id.questionEdit);
             final EditText answerEdit = (EditText) dialog.findViewById(R.id.answerEdit);
             Button cancelButton = (Button) dialog.findViewById(R.id.cancelButton);
@@ -114,20 +123,20 @@ public class ReviewActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),
                                 "Answer is empty.", Toast.LENGTH_SHORT).show();
                     else {
-                        stack.addNewCard(new Card(q, a));
+                        deck.addNewCard(new Card(q, a));
                         dialog.dismiss();
                     }
                 }
             });
             dialog.show();
-        } else if(item.getTitle().equals("Edit current card")){
+        } else if(item.getTitle().equals("Edit Current Card")){
             final Dialog dialog = new Dialog(ReviewActivity.this);
             dialog.setContentView(R.layout.card_dialog);
-            dialog.setTitle("Edit current card");
+            dialog.setTitle("Edit Current Card");
             final EditText questionEdit = (EditText) dialog.findViewById(R.id.questionEdit);
-            questionEdit.setText(stack.getNextCardToReview().getFront());
+            questionEdit.setText(deck.getNextCardToReview().getFront());
             final EditText answerEdit = (EditText) dialog.findViewById(R.id.answerEdit);
-            answerEdit.setText(stack.getNextCardToReview().getBack());
+            answerEdit.setText(deck.getNextCardToReview().getBack());
             Button cancelButton = (Button) dialog.findViewById(R.id.cancelButton);
             Button okButton = (Button) dialog.findViewById(R.id.okButton);
             cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -148,23 +157,23 @@ public class ReviewActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),
                                 "Answer is empty.", Toast.LENGTH_SHORT).show();
                     else {
-                        stack.editCurrentCard(q, a);
+                        deck.editCurrentCard(q, a);
                         showNextQuestion();
                         dialog.dismiss();
                     }
                 }
             });
             dialog.show();
-        } else if(item.getTitle().equals("Delete card")){
+        } else if(item.getTitle().equals("Delete Card")){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Delete");
+            builder.setTitle("Delete Card");
             builder.setMessage("Do you really want to delete the current card?");
             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    boolean successful = stack.deleteCurrentCard();
+                    boolean successful = deck.deleteCurrentCard();
                     if(!successful)
                         Toast.makeText(getApplicationContext(),
-                                "Last card can't be deleted!", Toast.LENGTH_SHORT);
+                                "The last card can't be deleted!", Toast.LENGTH_SHORT);
                     showNextQuestion();
                     dialog.dismiss();
                 }

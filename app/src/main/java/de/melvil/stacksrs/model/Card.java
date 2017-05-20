@@ -5,11 +5,19 @@ public class Card {
     private String front;
     private String back;
     private int level;
+    private String category;
+
+    public Card(){}
 
     public Card(String front, String back){
+        this(front, back, 0);
+    }
+
+    public Card(String front, String back, int level){
         this.front = front;
         this.back = back;
-        level = 0;
+        this.level = level;
+        this.category = "";
     }
 
     public String getFront(){
@@ -29,7 +37,15 @@ public class Card {
         return level;
     }
 
-    public void setLevel(int level){
-        this.level = level;
+    public void increaseLevel(){
+        this.level += 1;
+    }
+
+    public void decreaseLevel(){
+        this.level = Math.max(0, level - 2);
+    }
+
+    public String getCategory(){
+        return category;
     }
 }

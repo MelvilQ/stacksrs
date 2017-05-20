@@ -3,6 +3,7 @@ package de.melvil.stacksrs.model;
 import android.os.Environment;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.apache.commons.io.FileUtils;
 
@@ -18,36 +19,33 @@ public class Deck {
     private String name;
     private String languageFront;
     private String languageBack;
-    private boolean useTTS = false;
+    private boolean useTTS;
 
     private List<Card> stack = new ArrayList<>();
     private static Random random = new Random(System.currentTimeMillis());
 
-    public Deck(){
+    public Deck() {}
 
-    }
-
-    public Deck(String name){
+    public Deck(String name, String languageFront, String languageBack) {
         this.name = name;
+        this.languageFront = languageFront;
+        this.languageBack = languageBack;
+        this.useTTS = false;
     }
 
-    public static Deck loadDeck(String name) {
-        try {
-            Gson gson = new Gson();
-            File file = new File(Environment.getExternalStorageDirectory()
-                    + "/StackSRS/" + name + ".txt");
-            return gson.fromJson(FileUtils.readFileToString(file), Deck.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Deck();
-        }
+    public static Deck loadDeck(String name) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        File file = new File(Environment.getExternalStorageDirectory()
+                + "/StackSRS/" + name + ".json");
+        return gson.fromJson(FileUtils.readFileToString(file), Deck.class);
+
     }
 
     public void saveDeck() {
         try {
             Gson gson = new Gson();
             File file = new File(Environment.getExternalStorageDirectory()
-                    + "/StackSRS/" + name + ".txt");
+                    + "/StackSRS/" + name + ".json");
             FileUtils.writeStringToFile(file, gson.toJson(this));
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,48 +53,59 @@ public class Deck {
     }
 
     public Card getNextCardToReview() {
+        if(stack.isEmpty())
+            return null;
         return stack.get(0);
     }
 
     public void putReviewedCardBack(boolean right) {
+        if(stack.isEmpty())
+            return;
         Card card = stack.remove(0);
         if (right) {
-            card.setLevel(card.getLevel() + 1);
+            card.increaseLevel();
             int newPos;
-            if(card.getLevel() >= 10)
+            if (card.getLevel() >= 10)
                 newPos = Integer.MAX_VALUE;
             else
                 newPos = 1 << (card.getLevel() * 2 + 2);
             newPos = newPos + random.nextInt((newPos / 3) + 1) - (newPos / 3);
             stack.add(Math.min(stack.size(), newPos), card);
         } else {
-            card.setLevel(Math.max(0, card.getLevel() - 2));
-            stack.add(2, card);
+            card.decreaseLevel();
+            stack.add(Math.min(stack.size(), 3), card);
         }
         saveDeck();
     }
 
     public void addNewCard(Card newCard) {
-        if(stack.size() < 3)
-            stack.add(newCard);
-        else
-            stack.add(2, newCard);
+        stack.add(Math.min(stack.size(), 2), newCard);
         saveDeck();
     }
 
-    public void editCurrentCard(String front, String back){
+    public void editCurrentCard(String front, String back) {
+        if(stack.isEmpty())
+            return;
         stack.get(0).edit(front, back);
         saveDeck();
     }
 
-    public boolean deleteCurrentCard(){
-        if(stack.size() > 1) {
+    public boolean deleteCurrentCard() {
+        if (stack.size() > 1) {
             stack.remove(0);
             saveDeck();
             return true;
         } else {
             return false;
         }
+    }
+
+    public boolean isUsingTTS(){
+        return useTTS;
+    }
+
+    public void setUsingTTS(boolean u){
+        useTTS = u;
     }
 
     public void shuffleDeck() {

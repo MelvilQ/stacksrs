@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_add"
+        android:title="Add New Card"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_edit"
+        android:title="Edit Current Card"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_delete"
+        android:title="Delete Current Card"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_shuffle"
+        android:title="Shuffle Deck"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_reset"
+        android:title="Reset Card Strength"
+        app:showAsAction="never" />
+</menu>

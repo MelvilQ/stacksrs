@@ -37,6 +37,10 @@ public class Card {
         return level;
     }
 
+    public void resetLevel(int level){
+        this.level = level;
+    }
+
     public void increaseLevel(){
         this.level += 1;
     }

@@ -43,7 +43,7 @@ public class Deck {
 
     public void saveDeck() {
         try {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             File file = new File(Environment.getExternalStorageDirectory()
                     + "/StackSRS/" + name + ".json");
             FileUtils.writeStringToFile(file, gson.toJson(this));
@@ -79,7 +79,7 @@ public class Deck {
     }
 
     public void addNewCard(Card newCard) {
-        stack.add(Math.min(stack.size(), 2), newCard);
+        stack.add(0, newCard);
         saveDeck();
     }
 
@@ -111,6 +111,12 @@ public class Deck {
     public void shuffleDeck() {
         Collections.shuffle(stack);
         saveDeck();
+    }
+
+    public void resetStrength(int level){
+        for(Card c : stack){
+            c.resetLevel(level);
+        }
     }
 
 }

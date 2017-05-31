@@ -113,6 +113,11 @@ public class DeckListActivity extends AppCompatActivity {
         File stackSRSDir = new File(Environment.getExternalStorageDirectory() + "/StackSRS");
         stackSRSDir.mkdir();    // create dir if not exists
         File[] deckFiles = stackSRSDir.listFiles();
+        if(deckFiles == null){
+            Toast.makeText(this, "Unable to load deck collection.", Toast.LENGTH_SHORT).show();
+            deckListAdapter.notifyDataSetChanged();
+            return;
+        }
         // sort by last edit
         Arrays.sort(deckFiles, new Comparator<File>() {
             public int compare(File f1, File f2) {

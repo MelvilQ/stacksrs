@@ -61,6 +61,7 @@ public class ReviewActivity extends AppCompatActivity {
         });
 
         String deckName = getIntent().getStringExtra("deck name");
+        setTitle(deckName);
         try {
             deck = Deck.loadDeck(deckName);
         } catch(IOException e){
@@ -89,15 +90,13 @@ public class ReviewActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add("Add New Card");
-        menu.add("Edit Current Card");
-        menu.add("Delete Card");
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_reviewactivity, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getTitle().equals("Add New Card")){
+        if(item.getItemId() == R.id.action_add){
             final Dialog dialog = new Dialog(ReviewActivity.this);
             dialog.setContentView(R.layout.card_dialog);
             dialog.setTitle("Add New Card");
@@ -124,12 +123,13 @@ public class ReviewActivity extends AppCompatActivity {
                                 "Answer is empty.", Toast.LENGTH_SHORT).show();
                     else {
                         deck.addNewCard(new Card(q, a));
+                        showNextQuestion();
                         dialog.dismiss();
                     }
                 }
             });
             dialog.show();
-        } else if(item.getTitle().equals("Edit Current Card")){
+        } else if(item.getItemId() == R.id.action_edit){
             final Dialog dialog = new Dialog(ReviewActivity.this);
             dialog.setContentView(R.layout.card_dialog);
             dialog.setTitle("Edit Current Card");
@@ -164,10 +164,16 @@ public class ReviewActivity extends AppCompatActivity {
                 }
             });
             dialog.show();
-        } else if(item.getTitle().equals("Delete Card")){
+        } else if(item.getItemId() == R.id.action_delete){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Delete Card");
             builder.setMessage("Do you really want to delete the current card?");
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     boolean successful = deck.deleteCurrentCard();
@@ -178,9 +184,48 @@ public class ReviewActivity extends AppCompatActivity {
                     dialog.dismiss();
                 }
             });
+            AlertDialog alert = builder.create();
+            alert.show();
+        } else if(item.getItemId() == R.id.action_shuffle){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Shuffle Deck");
+            builder.setMessage("Do you really want to shuffle the deck?");
             builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    deck.shuffleDeck();
+                    showNextQuestion();
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        } else if(item.getItemId() == R.id.action_reset){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Reset Card Strength");
+            builder.setMessage("Reset the strength of all cards?");
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.setNeutralButton("Yes, Beginner", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    deck.resetStrength(0);
+                    showNextQuestion();
+                    dialog.dismiss();
+                }
+            });
+            builder.setPositiveButton("Yes, Expert", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    deck.resetStrength(2);
+                    showNextQuestion();
                     dialog.dismiss();
                 }
             });

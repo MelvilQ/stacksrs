@@ -6,17 +6,25 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.msebera.android.httpclient.Header;
+import de.melvil.stacksrs.model.Card;
 import de.melvil.stacksrs.model.Deck;
 
 public class DeckDownloadActivity extends AppCompatActivity {
+
+    private final String SERVER_URL = "http://stacksrs.droppages.com/";
 
     private class DeckInfo {
         public String name;
@@ -26,7 +34,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
         public String updated;
 
         @Override
-        public String toString(){
+        public String toString() {
             return name + "\n" + "Last update: " + updated;
         }
     }
@@ -34,6 +42,8 @@ public class DeckDownloadActivity extends AppCompatActivity {
     private ListView deckListView;
     private ArrayAdapter<DeckInfo> deckListAdapter;
     private List<DeckInfo> deckNames = new ArrayList<>();
+
+    private AsyncHttpClient httpClient = new AsyncHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,39 +64,70 @@ public class DeckDownloadActivity extends AppCompatActivity {
     }
 
     public void reloadDeckList() {
-        try { // TODO do this in an async task, handle the circle
-            deckNames.clear();
-            String url = "http://stacksrs.droppages.com/decks.txt";
-            JSONObject deckListJson = new JSONObject(IOUtils.toString(new URL(url).openStream()));
-            JSONArray deckListArray = deckListJson.getJSONArray("decks");
-            for (int i = 0; i < deckListArray.length(); ++i) {
-                JSONObject deckInfoObject = deckListArray.getJSONObject(i);
-                DeckInfo deckInfo = new DeckInfo();
-                deckInfo.name = deckInfoObject.getString("name");
-                deckInfo.file = deckInfoObject.getString("file");
-                deckInfo.front = deckInfoObject.getString("front");
-                deckInfo.back = deckInfoObject.getString("back");
-                deckInfo.updated = deckInfoObject.getString("updated");
-                deckNames.add(deckInfo);
+        httpClient.get(SERVER_URL + "decks.txt", null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                deckNames.clear();
+                try {
+                    JSONArray deckListArray = response.getJSONArray("decks");
+                    for (int i = 0; i < deckListArray.length(); ++i) {
+                        JSONObject deckInfoObject = deckListArray.getJSONObject(i);
+                        DeckInfo deckInfo = new DeckInfo();
+                        deckInfo.name = deckInfoObject.getString("name");
+                        deckInfo.file = deckInfoObject.getString("file");
+                        deckInfo.front = deckInfoObject.getString("front");
+                        deckInfo.back = deckInfoObject.getString("back");
+                        deckInfo.updated = deckInfoObject.getString("updated");
+                        deckNames.add(deckInfo);
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), "Could not load deck list from server.",
+                            Toast.LENGTH_SHORT).show();
+                }
+                deckListAdapter.notifyDataSetChanged();
             }
-            deckListAdapter.notifyDataSetChanged();
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Could not connect to server. Are you online?",
-                    Toast.LENGTH_SHORT).show();
-        }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString,
+                                  Throwable throwable) {
+                Toast.makeText(getApplicationContext(), "Could not connect to server. Are you online?",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    public void downloadDeck(DeckInfo deckInfo) {
-        try { // TODO do this in async task
-            String url = "http://stacksrs.droppages.com/" + deckInfo.file + ".txt";
-            JSONObject deckJson = new JSONObject(IOUtils.toString(new URL(url).openStream()));
-            Deck newDeck = new Deck(deckInfo.name, deckInfo.front, deckInfo.back);
-            // TODO add cards
-            newDeck.saveDeck();
-            // TODO toast when finished
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Downloading the deck failed. Please try again.",
-                    Toast.LENGTH_SHORT).show();
-        }
+    public void downloadDeck(final String file, final int level) {
+        httpClient.get(SERVER_URL + file + ".txt", null, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    String deckName = response.getString("name");
+                    Deck newDeck = new Deck(deckName, response.getString("front"),
+                            response.getString("back"));
+                    JSONArray cardArray = response.getJSONArray("cards");
+                    List<Card> cards = new ArrayList<>();
+                    for(int i = 0; i < cardArray.length(); ++i) {
+                        JSONObject cardObject = cardArray.getJSONObject(i);
+                        Card c = new Card(cardObject.getString("front"),
+                                cardObject.getString("back"), level);
+                        cards.add(c);
+                    }
+                    newDeck.fillWithCards(cards);
+                    Toast.makeText(getApplicationContext(), "Downloaded " + deckName + ".",
+                            Toast.LENGTH_SHORT).show();
+                } catch(JSONException e) {
+                    Toast.makeText(getApplicationContext(), "Could not load deck.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString,
+                                  Throwable throwable) {
+                Toast.makeText(getApplicationContext(), "Downloading the deck failed. Are you online?",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+    
 }

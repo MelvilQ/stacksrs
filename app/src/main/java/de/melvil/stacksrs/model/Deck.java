@@ -119,4 +119,9 @@ public class Deck {
         }
     }
 
+    public void fillWithCards(List<Card> cards){
+        stack = cards;
+        saveDeck();
+    }
+
 }

@@ -19,10 +19,15 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/gson-2.6.2.jar')
-    compile files('libs/commons-io-2.4.jar')
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'commons-io:commons-io:2.5'
+    compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'

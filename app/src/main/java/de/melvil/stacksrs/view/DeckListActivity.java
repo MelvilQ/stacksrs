@@ -149,7 +149,7 @@ public class DeckListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String deckName = editDeckName.getText().toString().trim();
-                if (!deckName.matches("^[^*&%\\s]+$"))
+                if (!deckName.matches("^[a-zA-Z0-9 \\-_.,()]+$"))
                     Toast.makeText(getApplicationContext(),
                             "Illegal deck name.", Toast.LENGTH_SHORT).show();
                 else {

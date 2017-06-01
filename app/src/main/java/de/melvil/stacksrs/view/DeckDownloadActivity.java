@@ -1,9 +1,14 @@
 package de.melvil.stacksrs.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -43,6 +48,8 @@ public class DeckDownloadActivity extends AppCompatActivity {
     private ArrayAdapter<DeckInfo> deckListAdapter;
     private List<DeckInfo> deckNames = new ArrayList<>();
 
+    private ProgressBar circle;
+
     private AsyncHttpClient httpClient = new AsyncHttpClient();
 
     @Override
@@ -55,11 +62,44 @@ public class DeckDownloadActivity extends AppCompatActivity {
         deckListView = (ListView) findViewById(R.id.deck_list);
         deckListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, deckNames);
         deckListView.setAdapter(deckListAdapter);
+
+        deckListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final DeckInfo deckInfo = deckNames.get(position);
+                AlertDialog.Builder builder = new AlertDialog.Builder(DeckDownloadActivity.this);
+                builder.setTitle("Download Deck");
+                builder.setMessage("Do you want to download the deck \"" + deckInfo.name + "\"?");
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNeutralButton("Yes, as Beginner", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        downloadDeck(deckInfo.file, 0);
+                        dialog.dismiss();
+                    }
+                });
+                builder.setPositiveButton("Yes, as Expert", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        downloadDeck(deckInfo.file, 2);
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
+
+        circle = (ProgressBar) findViewById(R.id.circle);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        circle.setVisibility(View.VISIBLE);
         reloadDeckList();
     }
 
@@ -85,6 +125,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
                 deckListAdapter.notifyDataSetChanged();
+                circle.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -129,5 +170,5 @@ public class DeckDownloadActivity extends AppCompatActivity {
             }
         });
     }
-    
+
 }

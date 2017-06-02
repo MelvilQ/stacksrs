@@ -12,9 +12,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
-            android:name="DeckListActivity"
+            android:name=".DeckListActivity"
             android:label="StackSRS">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,14 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="ReviewActivity"
-            android:label="@string/app_name"></activity>
-
+            android:name=".ReviewActivity" />
         <activity
-            android:name="DeckDownloadActivity"
-            android:label="StackSRS" />
+            android:name=".DeckDownloadActivity" />
+        <activity
+            android:name=".DeckBrowserActivity" />
     </application>
 
 </manifest>

@@ -5,7 +5,6 @@ public class Card {
     private String front;
     private String back;
     private int level;
-    private String category;
 
     public Card(){}
 
@@ -17,7 +16,6 @@ public class Card {
         this.front = front;
         this.back = back;
         this.level = level;
-        this.category = "";
     }
 
     public String getFront(){
@@ -49,7 +47,7 @@ public class Card {
         this.level = Math.max(0, level - 2);
     }
 
-    public String getCategory(){
-        return category;
+    public String toString(){
+        return front.replace("\n", " ") + "\n" + back.replace("\n", " ");
     }
 }

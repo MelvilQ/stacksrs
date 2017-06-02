@@ -128,4 +128,15 @@ public class Deck {
         saveDeck();
     }
 
+    public List<Card> searchCards(String searchTerm){
+        if(searchTerm.equals(""))
+            return stack;
+        List<Card> result = new ArrayList<>();
+        for(Card c : stack){
+            if(c.toString().contains(searchTerm))
+                result.add(c);
+        }
+        return result;
+    }
+
 }

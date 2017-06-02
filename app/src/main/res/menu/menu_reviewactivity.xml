@@ -14,6 +14,10 @@
         android:title="Delete Current Card"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_browser"
+        android:title="Open Deck Browser"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_shuffle"
         android:title="Shuffle Deck"
         app:showAsAction="never" />

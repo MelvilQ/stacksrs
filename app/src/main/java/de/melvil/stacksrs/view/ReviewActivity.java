@@ -3,6 +3,7 @@ package de.melvil.stacksrs.view;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -186,6 +187,10 @@ public class ReviewActivity extends AppCompatActivity {
             });
             AlertDialog alert = builder.create();
             alert.show();
+        } else if(item.getItemId() == R.id.action_browser){
+            Intent intent = new Intent(getApplicationContext(), DeckBrowserActivity.class);
+            intent.putExtra("deck name", deck.getName());
+            startActivity(intent);
         } else if(item.getItemId() == R.id.action_shuffle){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Shuffle Deck");

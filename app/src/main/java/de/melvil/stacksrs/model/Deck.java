@@ -52,6 +52,10 @@ public class Deck {
         }
     }
 
+    public String getName(){
+        return name;
+    }
+
     public Card getNextCardToReview() {
         if(stack.isEmpty())
             return null;

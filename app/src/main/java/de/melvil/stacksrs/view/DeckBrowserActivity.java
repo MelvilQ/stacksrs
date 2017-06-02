@@ -3,19 +3,18 @@ package de.melvil.stacksrs.view;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +30,6 @@ public class DeckBrowserActivity extends AppCompatActivity {
     private ListView cardList;
     private ArrayAdapter<Card> cardAdapter;
     private List<Card> cards = new ArrayList<>();
-
-    private String searchTerm = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,10 +129,101 @@ public class DeckBrowserActivity extends AppCompatActivity {
             // TODO better error handling
         }
 
-        displayCardList();
+        displayCardList("");
     }
 
-    private void displayCardList(){
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_deckbrowseractivity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_add) {
+            final Dialog dialog = new Dialog(DeckBrowserActivity.this);
+            dialog.setContentView(R.layout.card_dialog);
+            dialog.setTitle("Add New Card");
+            final EditText questionEdit = (EditText) dialog.findViewById(R.id.questionEdit);
+            final EditText answerEdit = (EditText) dialog.findViewById(R.id.answerEdit);
+            Button cancelButton = (Button) dialog.findViewById(R.id.cancelButton);
+            Button okButton = (Button) dialog.findViewById(R.id.okButton);
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            okButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String q = questionEdit.getText().toString().trim();
+                    String a = answerEdit.getText().toString().trim();
+                    if (q.length() == 0)
+                        Toast.makeText(getApplicationContext(),
+                                "Question is empty.", Toast.LENGTH_SHORT).show();
+                    else if (a.length() == 0)
+                        Toast.makeText(getApplicationContext(),
+                                "Answer is empty.", Toast.LENGTH_SHORT).show();
+                    else {
+                        Card card = new Card(q, a);
+                        deck.addNewCard(card);
+                        displayCardList("");
+                        dialog.dismiss();
+                    }
+                }
+            });
+            dialog.show();
+        } else if(item.getItemId() == R.id.action_shuffle){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Shuffle Deck");
+            builder.setMessage("Do you really want to shuffle the deck?");
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    deck.shuffleDeck();
+                    displayCardList("");
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        } else if(item.getItemId() == R.id.action_reset){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Reset Card Strength");
+            builder.setMessage("Reset the strength of all cards?");
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.setNeutralButton("Yes, Beginner", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    deck.resetStrength(0);
+                    dialog.dismiss();
+                }
+            });
+            builder.setPositiveButton("Yes, Expert", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    deck.resetStrength(2);
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        } else if (item.getItemId() == R.id.action_options) {
+            // TODO deck options
+        }
+        return true;
+    }
+
+    private void displayCardList(String searchTerm){
         cards.clear();
         cards.addAll(deck.searchCards(searchTerm));
         cardAdapter.notifyDataSetChanged();

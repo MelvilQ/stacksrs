@@ -199,51 +199,6 @@ public class ReviewActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), DeckBrowserActivity.class);
             intent.putExtra("deck name", deck.getName());
             startActivity(intent);
-        } else if(item.getItemId() == R.id.action_shuffle){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Shuffle Deck");
-            builder.setMessage("Do you really want to shuffle the deck?");
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    deck.shuffleDeck();
-                    showNextQuestion();
-                    dialog.dismiss();
-                }
-            });
-            AlertDialog alert = builder.create();
-            alert.show();
-        } else if(item.getItemId() == R.id.action_reset){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Reset Card Strength");
-            builder.setMessage("Reset the strength of all cards?");
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            builder.setNeutralButton("Yes, Beginner", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    deck.resetStrength(0);
-                    showNextQuestion();
-                    dialog.dismiss();
-                }
-            });
-            builder.setPositiveButton("Yes, Expert", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    deck.resetStrength(2);
-                    showNextQuestion();
-                    dialog.dismiss();
-                }
-            });
-            AlertDialog alert = builder.create();
-            alert.show();
         }
         return super.onOptionsItemSelected(item);
     }

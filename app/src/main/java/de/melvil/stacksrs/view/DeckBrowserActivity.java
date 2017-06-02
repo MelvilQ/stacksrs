@@ -1,6 +1,7 @@
 package de.melvil.stacksrs.view;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -43,8 +46,43 @@ public class DeckBrowserActivity extends AppCompatActivity {
         // normal click: edit
         cardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // edit
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                final Card card = cards.get(position);
+                final Dialog dialog = new Dialog(DeckBrowserActivity.this);
+                dialog.setContentView(R.layout.card_dialog);
+                dialog.setTitle("Edit Card");
+                final EditText questionEdit = (EditText) dialog.findViewById(R.id.questionEdit);
+                questionEdit.setText(card.getFront());
+                final EditText answerEdit = (EditText) dialog.findViewById(R.id.answerEdit);
+                answerEdit.setText(card.getBack());
+                Button cancelButton = (Button) dialog.findViewById(R.id.cancelButton);
+                Button okButton = (Button) dialog.findViewById(R.id.okButton);
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                okButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String q = questionEdit.getText().toString().trim();
+                        String a = answerEdit.getText().toString().trim();
+                        if (q.length() == 0)
+                            Toast.makeText(getApplicationContext(),
+                                    "Question is empty.", Toast.LENGTH_SHORT).show();
+                        else if(a.length() == 0)
+                            Toast.makeText(getApplicationContext(),
+                                    "Answer is empty.", Toast.LENGTH_SHORT).show();
+                        else {
+                            card.edit(q, a);
+                            deck.saveDeck();
+                            cardAdapter.notifyDataSetChanged();
+                            dialog.dismiss();
+                        }
+                    }
+                });
+                dialog.show();
             }
         });
 
@@ -63,7 +101,7 @@ public class DeckBrowserActivity extends AppCompatActivity {
                             cardAdapter.notifyDataSetChanged();
                         } else {
                             Toast.makeText(getApplicationContext(), "The last card can't be deleted!",
-                                    Toast.LENGTH_SHORT);
+                                    Toast.LENGTH_SHORT).show();
                         }
                         dialog.dismiss();
                     }

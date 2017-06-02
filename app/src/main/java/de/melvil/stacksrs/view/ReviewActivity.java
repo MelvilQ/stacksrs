@@ -188,7 +188,7 @@ public class ReviewActivity extends AppCompatActivity {
                     boolean successful = deck.deleteCurrentCard();
                     if(!successful)
                         Toast.makeText(getApplicationContext(),
-                                "The last card can't be deleted!", Toast.LENGTH_SHORT);
+                                "The last card can't be deleted!", Toast.LENGTH_SHORT).show();
                     showNextQuestion();
                     dialog.dismiss();
                 }

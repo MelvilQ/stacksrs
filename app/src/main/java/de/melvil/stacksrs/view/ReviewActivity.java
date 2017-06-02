@@ -27,6 +27,7 @@ public class ReviewActivity extends AppCompatActivity {
     private Button answerButton;
     private Button rightButton;
 
+    private String deckName;
     private Deck deck;
 
     @Override
@@ -61,8 +62,15 @@ public class ReviewActivity extends AppCompatActivity {
             }
         });
 
-        String deckName = getIntent().getStringExtra("deck name");
+        deckName = getIntent().getStringExtra("deck name");
         setTitle(deckName);
+
+
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
         try {
             deck = Deck.loadDeck(deckName);
         } catch(IOException e){

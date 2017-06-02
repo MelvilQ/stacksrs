@@ -104,6 +104,16 @@ public class Deck {
         }
     }
 
+    public boolean deleteCard(Card card) {
+        if (stack.size() > 1) {
+            stack.remove(card);
+            saveDeck();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean isUsingTTS(){
         return useTTS;
     }
@@ -129,12 +139,12 @@ public class Deck {
     }
 
     public List<Card> searchCards(String searchTerm){
-        if(searchTerm.equals(""))
-            return stack;
         List<Card> result = new ArrayList<>();
         for(Card c : stack){
             if(c.toString().contains(searchTerm))
                 result.add(c);
+            if(result.size() >= 100)    // limit result to 100
+                return result;
         }
         return result;
     }

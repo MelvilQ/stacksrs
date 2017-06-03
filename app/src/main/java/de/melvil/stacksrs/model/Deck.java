@@ -141,7 +141,7 @@ public class Deck {
     public List<Card> searchCards(String searchTerm){
         List<Card> result = new ArrayList<>();
         for(Card c : stack){
-            if(c.toString().contains(searchTerm))
+            if(c.contains(searchTerm))
                 result.add(c);
             if(result.size() >= 100)    // limit result to 100
                 return result;

@@ -48,6 +48,16 @@ public class Card {
     }
 
     public String toString(){
-        return front.replace("\n", " ") + "\n" + back.replace("\n", " ");
+        String f = front.replace("\n", " ");
+        if(f.length() >= 40)
+            f = f.substring(0, Math.min(37, f.length())) + "...";
+        String b = back.replace("\n", " ");
+        if(b.length() >= 40)
+            b = b.substring(0, Math.min(37, b.length())) + "...";
+        return f + "\n" + b;
+    }
+
+    public boolean contains(String searchTerm){
+        return (front.contains(searchTerm) || back.contains(searchTerm));
     }
 }

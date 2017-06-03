@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -140,7 +141,27 @@ public class DeckBrowserActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_add) {
+        if(item.getItemId() == R.id.action_search){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Search Card");
+            final EditText searchTermInput = new EditText(this);
+            searchTermInput.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(searchTermInput);
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.setPositiveButton("Search", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    displayCardList(searchTermInput.getText().toString().trim());
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        } else if (item.getItemId() == R.id.action_add) {
             final Dialog dialog = new Dialog(DeckBrowserActivity.this);
             dialog.setContentView(R.layout.card_dialog);
             dialog.setTitle("Add New Card");

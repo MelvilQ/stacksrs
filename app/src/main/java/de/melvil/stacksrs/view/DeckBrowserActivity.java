@@ -49,10 +49,10 @@ public class DeckBrowserActivity extends AppCompatActivity {
                 final Dialog dialog = new Dialog(DeckBrowserActivity.this);
                 dialog.setContentView(R.layout.card_dialog);
                 dialog.setTitle("Edit Card");
-                final EditText questionEdit = (EditText) dialog.findViewById(R.id.edit_front);
-                questionEdit.setText(card.getFront());
-                final EditText answerEdit = (EditText) dialog.findViewById(R.id.edit_back);
-                answerEdit.setText(card.getBack());
+                final EditText frontEdit = (EditText) dialog.findViewById(R.id.edit_front);
+                frontEdit.setText(card.getFront());
+                final EditText backEdit = (EditText) dialog.findViewById(R.id.edit_back);
+                backEdit.setText(card.getBack());
                 Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
                 Button okButton = (Button) dialog.findViewById(R.id.button_ok);
                 cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -64,16 +64,16 @@ public class DeckBrowserActivity extends AppCompatActivity {
                 okButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String q = questionEdit.getText().toString().trim();
-                        String a = answerEdit.getText().toString().trim();
-                        if (q.length() == 0)
+                        String front = frontEdit.getText().toString().trim();
+                        String back = backEdit.getText().toString().trim();
+                        if (front.length() == 0)
                             Toast.makeText(getApplicationContext(),
-                                    "Question is empty.", Toast.LENGTH_SHORT).show();
-                        else if(a.length() == 0)
+                                    "Front is empty.", Toast.LENGTH_SHORT).show();
+                        else if(back.length() == 0)
                             Toast.makeText(getApplicationContext(),
-                                    "Answer is empty.", Toast.LENGTH_SHORT).show();
+                                    "Back is empty.", Toast.LENGTH_SHORT).show();
                         else {
-                            card.edit(q, a);
+                            card.edit(front, back);
                             deck.saveDeck();
                             cardAdapter.notifyDataSetChanged();
                             dialog.dismiss();
@@ -165,8 +165,8 @@ public class DeckBrowserActivity extends AppCompatActivity {
             final Dialog dialog = new Dialog(DeckBrowserActivity.this);
             dialog.setContentView(R.layout.card_dialog);
             dialog.setTitle("Add New Card");
-            final EditText questionEdit = (EditText) dialog.findViewById(R.id.edit_front);
-            final EditText answerEdit = (EditText) dialog.findViewById(R.id.edit_back);
+            final EditText frontEdit = (EditText) dialog.findViewById(R.id.edit_front);
+            final EditText backEdit = (EditText) dialog.findViewById(R.id.edit_back);
             Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
             Button okButton = (Button) dialog.findViewById(R.id.button_ok);
             cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -178,16 +178,16 @@ public class DeckBrowserActivity extends AppCompatActivity {
             okButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String q = questionEdit.getText().toString().trim();
-                    String a = answerEdit.getText().toString().trim();
-                    if (q.length() == 0)
+                    String front = frontEdit.getText().toString().trim();
+                    String back = backEdit.getText().toString().trim();
+                    if (front.length() == 0)
                         Toast.makeText(getApplicationContext(),
-                                "Question is empty.", Toast.LENGTH_SHORT).show();
-                    else if (a.length() == 0)
+                                "Front is empty.", Toast.LENGTH_SHORT).show();
+                    else if (back.length() == 0)
                         Toast.makeText(getApplicationContext(),
-                                "Answer is empty.", Toast.LENGTH_SHORT).show();
+                                "Back is empty.", Toast.LENGTH_SHORT).show();
                     else {
-                        Card card = new Card(q, a);
+                        Card card = new Card(front, back);
                         deck.addNewCard(card);
                         displayCardList("");
                         dialog.dismiss();

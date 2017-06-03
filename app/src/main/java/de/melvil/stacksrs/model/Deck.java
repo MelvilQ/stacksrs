@@ -52,6 +52,10 @@ public class Deck {
         }
     }
 
+    public String getName(){
+        return name;
+    }
+
     public Card getNextCardToReview() {
         if(stack.isEmpty())
             return null;
@@ -100,6 +104,16 @@ public class Deck {
         }
     }
 
+    public boolean deleteCard(Card card) {
+        if (stack.size() > 1) {
+            stack.remove(card);
+            saveDeck();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean isUsingTTS(){
         return useTTS;
     }
@@ -122,6 +136,17 @@ public class Deck {
     public void fillWithCards(List<Card> cards){
         stack = cards;
         saveDeck();
+    }
+
+    public List<Card> searchCards(String searchTerm){
+        List<Card> result = new ArrayList<>();
+        for(Card c : stack){
+            if(c.contains(searchTerm))
+                result.add(c);
+            if(result.size() >= 100)    // limit result to 100
+                return result;
+        }
+        return result;
     }
 
 }

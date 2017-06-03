@@ -5,7 +5,6 @@ public class Card {
     private String front;
     private String back;
     private int level;
-    private String category;
 
     public Card(){}
 
@@ -17,7 +16,6 @@ public class Card {
         this.front = front;
         this.back = back;
         this.level = level;
-        this.category = "";
     }
 
     public String getFront(){
@@ -49,7 +47,17 @@ public class Card {
         this.level = Math.max(0, level - 2);
     }
 
-    public String getCategory(){
-        return category;
+    public String toString(){
+        String f = front.replace("\n", " ");
+        if(f.length() >= 40)
+            f = f.substring(0, Math.min(37, f.length())) + "...";
+        String b = back.replace("\n", " ");
+        if(b.length() >= 40)
+            b = b.substring(0, Math.min(37, b.length())) + "...";
+        return f + "\n" + b;
+    }
+
+    public boolean contains(String searchTerm){
+        return (front.contains(searchTerm) || back.contains(searchTerm));
     }
 }

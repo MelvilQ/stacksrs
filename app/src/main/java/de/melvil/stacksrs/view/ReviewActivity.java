@@ -3,6 +3,7 @@ package de.melvil.stacksrs.view;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -26,6 +27,7 @@ public class ReviewActivity extends AppCompatActivity {
     private Button answerButton;
     private Button rightButton;
 
+    private String deckName;
     private Deck deck;
 
     @Override
@@ -60,8 +62,15 @@ public class ReviewActivity extends AppCompatActivity {
             }
         });
 
-        String deckName = getIntent().getStringExtra("deck name");
+        deckName = getIntent().getStringExtra("deck name");
         setTitle(deckName);
+
+
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
         try {
             deck = Deck.loadDeck(deckName);
         } catch(IOException e){
@@ -179,58 +188,17 @@ public class ReviewActivity extends AppCompatActivity {
                     boolean successful = deck.deleteCurrentCard();
                     if(!successful)
                         Toast.makeText(getApplicationContext(),
-                                "The last card can't be deleted!", Toast.LENGTH_SHORT);
+                                "The last card can't be deleted!", Toast.LENGTH_SHORT).show();
                     showNextQuestion();
                     dialog.dismiss();
                 }
             });
             AlertDialog alert = builder.create();
             alert.show();
-        } else if(item.getItemId() == R.id.action_shuffle){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Shuffle Deck");
-            builder.setMessage("Do you really want to shuffle the deck?");
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    deck.shuffleDeck();
-                    showNextQuestion();
-                    dialog.dismiss();
-                }
-            });
-            AlertDialog alert = builder.create();
-            alert.show();
-        } else if(item.getItemId() == R.id.action_reset){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Reset Card Strength");
-            builder.setMessage("Reset the strength of all cards?");
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            builder.setNeutralButton("Yes, Beginner", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    deck.resetStrength(0);
-                    showNextQuestion();
-                    dialog.dismiss();
-                }
-            });
-            builder.setPositiveButton("Yes, Expert", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    deck.resetStrength(2);
-                    showNextQuestion();
-                    dialog.dismiss();
-                }
-            });
-            AlertDialog alert = builder.create();
-            alert.show();
+        } else if(item.getItemId() == R.id.action_browser){
+            Intent intent = new Intent(getApplicationContext(), DeckBrowserActivity.class);
+            intent.putExtra("deck name", deck.getName());
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

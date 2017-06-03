@@ -42,6 +42,7 @@ public class DeckListActivity extends AppCompatActivity {
         deckListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, deckNames);
         deckListView.setAdapter(deckListAdapter);
 
+        // normal click: open deck
         deckListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -53,6 +54,7 @@ public class DeckListActivity extends AppCompatActivity {
             }
         });
 
+        // long click: delete deck
         deckListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {

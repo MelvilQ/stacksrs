@@ -28,7 +28,7 @@ public class DeckListActivity extends AppCompatActivity {
 
     private ListView deckListView;
     private ArrayAdapter<String> deckListAdapter;
-    private List<String> deckNames = new ArrayList<>();
+    private final List<String> deckNames = new ArrayList<>();
 
     private Button newButton;
     private Button downloadButton;
@@ -151,10 +151,14 @@ public class DeckListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String deckName = editDeckName.getText().toString().trim();
-                if (!deckName.matches("^[a-zA-Z0-9 \\-_.,()]+$"))
+                if (!deckName.matches("^[a-zA-Z0-9 \\-_.,()]+$")) {
                     Toast.makeText(getApplicationContext(),
                             "Illegal deck name.", Toast.LENGTH_SHORT).show();
-                else {
+                } else if(deckNames.contains(deckName)){
+                    Toast.makeText(getApplicationContext(),
+                            "A deck \"" + deckName + "\" already exists!", Toast.LENGTH_SHORT)
+                            .show();
+                } else {
                     Deck newDeck = new Deck(deckName, "", "");
                     newDeck.addNewCard(new Card("default", "default", 10));
                     newDeck.saveDeck();

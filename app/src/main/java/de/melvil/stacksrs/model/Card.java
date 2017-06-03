@@ -6,6 +6,7 @@ public class Card {
     private String back;
     private int level;
 
+    @SuppressWarnings("unused")
     public Card(){}
 
     public Card(String front, String back){

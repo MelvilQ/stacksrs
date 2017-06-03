@@ -25,6 +25,7 @@ public class Deck {
     private List<Card> stack = new ArrayList<>();
     private static Random random = new Random(System.currentTimeMillis());
 
+    @SuppressWarnings("unused")
     public Deck() {}
 
     public Deck(String name, String languageFront, String languageBack) {

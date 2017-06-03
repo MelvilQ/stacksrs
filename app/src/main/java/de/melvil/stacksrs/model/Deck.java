@@ -9,6 +9,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +38,7 @@ public class Deck {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         File file = new File(Environment.getExternalStorageDirectory()
                 + "/StackSRS/" + name + ".json");
-        return gson.fromJson(FileUtils.readFileToString(file), Deck.class);
+        return gson.fromJson(FileUtils.readFileToString(file, Charset.forName("UTF-8")), Deck.class);
 
     }
 
@@ -46,7 +47,7 @@ public class Deck {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             File file = new File(Environment.getExternalStorageDirectory()
                     + "/StackSRS/" + name + ".json");
-            FileUtils.writeStringToFile(file, gson.toJson(this));
+            FileUtils.writeStringToFile(file, gson.toJson(this), Charset.forName("UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
         }

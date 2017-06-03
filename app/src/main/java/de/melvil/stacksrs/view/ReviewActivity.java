@@ -35,11 +35,11 @@ public class ReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
 
-        questionText = (TextView) findViewById(R.id.questionText);
-        answerText = (TextView) findViewById(R.id.answerText);
-        wrongButton = (Button) findViewById(R.id.wrongButton);
-        answerButton = (Button) findViewById(R.id.answerButton);
-        rightButton = (Button) findViewById(R.id.rightButton);
+        questionText = (TextView) findViewById(R.id.text_front);
+        answerText = (TextView) findViewById(R.id.text_back);
+        wrongButton = (Button) findViewById(R.id.button_wrong);
+        answerButton = (Button) findViewById(R.id.button_answer);
+        rightButton = (Button) findViewById(R.id.button_correct);
 
         wrongButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,10 +109,10 @@ public class ReviewActivity extends AppCompatActivity {
             final Dialog dialog = new Dialog(ReviewActivity.this);
             dialog.setContentView(R.layout.card_dialog);
             dialog.setTitle("Add New Card");
-            final EditText questionEdit = (EditText) dialog.findViewById(R.id.questionEdit);
-            final EditText answerEdit = (EditText) dialog.findViewById(R.id.answerEdit);
-            Button cancelButton = (Button) dialog.findViewById(R.id.cancelButton);
-            Button okButton = (Button) dialog.findViewById(R.id.okButton);
+            final EditText questionEdit = (EditText) dialog.findViewById(R.id.edit_front);
+            final EditText answerEdit = (EditText) dialog.findViewById(R.id.edit_back);
+            Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
+            Button okButton = (Button) dialog.findViewById(R.id.button_ok);
             cancelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -142,12 +142,12 @@ public class ReviewActivity extends AppCompatActivity {
             final Dialog dialog = new Dialog(ReviewActivity.this);
             dialog.setContentView(R.layout.card_dialog);
             dialog.setTitle("Edit Current Card");
-            final EditText questionEdit = (EditText) dialog.findViewById(R.id.questionEdit);
+            final EditText questionEdit = (EditText) dialog.findViewById(R.id.edit_front);
             questionEdit.setText(deck.getNextCardToReview().getFront());
-            final EditText answerEdit = (EditText) dialog.findViewById(R.id.answerEdit);
+            final EditText answerEdit = (EditText) dialog.findViewById(R.id.edit_back);
             answerEdit.setText(deck.getNextCardToReview().getBack());
-            Button cancelButton = (Button) dialog.findViewById(R.id.cancelButton);
-            Button okButton = (Button) dialog.findViewById(R.id.okButton);
+            Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
+            Button okButton = (Button) dialog.findViewById(R.id.button_ok);
             cancelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

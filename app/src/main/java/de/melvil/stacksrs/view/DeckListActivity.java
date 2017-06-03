@@ -84,8 +84,8 @@ public class DeckListActivity extends AppCompatActivity {
             }
         });
 
-        newButton = (Button) findViewById(R.id.new_button);
-        downloadButton = (Button) findViewById(R.id.download_button);
+        newButton = (Button) findViewById(R.id.button_new);
+        downloadButton = (Button) findViewById(R.id.button_download);
 
         newButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,8 +139,8 @@ public class DeckListActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.deck_dialog);
         dialog.setTitle("New Deck");
         final EditText editDeckName = (EditText) dialog.findViewById(R.id.edit_deck_name);
-        Button cancelButton = (Button) dialog.findViewById(R.id.cancelButton);
-        Button okButton = (Button) dialog.findViewById(R.id.okButton);
+        Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
+        Button okButton = (Button) dialog.findViewById(R.id.button_ok);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

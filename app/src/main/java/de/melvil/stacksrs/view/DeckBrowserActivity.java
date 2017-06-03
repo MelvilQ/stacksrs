@@ -49,12 +49,12 @@ public class DeckBrowserActivity extends AppCompatActivity {
                 final Dialog dialog = new Dialog(DeckBrowserActivity.this);
                 dialog.setContentView(R.layout.card_dialog);
                 dialog.setTitle("Edit Card");
-                final EditText questionEdit = (EditText) dialog.findViewById(R.id.questionEdit);
+                final EditText questionEdit = (EditText) dialog.findViewById(R.id.edit_front);
                 questionEdit.setText(card.getFront());
-                final EditText answerEdit = (EditText) dialog.findViewById(R.id.answerEdit);
+                final EditText answerEdit = (EditText) dialog.findViewById(R.id.edit_back);
                 answerEdit.setText(card.getBack());
-                Button cancelButton = (Button) dialog.findViewById(R.id.cancelButton);
-                Button okButton = (Button) dialog.findViewById(R.id.okButton);
+                Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
+                Button okButton = (Button) dialog.findViewById(R.id.button_ok);
                 cancelButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -165,10 +165,10 @@ public class DeckBrowserActivity extends AppCompatActivity {
             final Dialog dialog = new Dialog(DeckBrowserActivity.this);
             dialog.setContentView(R.layout.card_dialog);
             dialog.setTitle("Add New Card");
-            final EditText questionEdit = (EditText) dialog.findViewById(R.id.questionEdit);
-            final EditText answerEdit = (EditText) dialog.findViewById(R.id.answerEdit);
-            Button cancelButton = (Button) dialog.findViewById(R.id.cancelButton);
-            Button okButton = (Button) dialog.findViewById(R.id.okButton);
+            final EditText questionEdit = (EditText) dialog.findViewById(R.id.edit_front);
+            final EditText answerEdit = (EditText) dialog.findViewById(R.id.edit_back);
+            Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
+            Button okButton = (Button) dialog.findViewById(R.id.button_ok);
             cancelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -8,11 +8,14 @@ import com.google.gson.GsonBuilder;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 
 public class Deck {
@@ -23,10 +26,12 @@ public class Deck {
     private boolean useTTS;
 
     private List<Card> stack = new ArrayList<>();
+
     private static Random random = new Random(System.currentTimeMillis());
 
     @SuppressWarnings("unused")
-    public Deck() {}
+    public Deck() {
+    }
 
     public Deck(String name, String languageFront, String languageBack) {
         this.name = name;
@@ -49,23 +54,54 @@ public class Deck {
             File file = new File(Environment.getExternalStorageDirectory()
                     + "/StackSRS/" + name + ".json");
             FileUtils.writeStringToFile(file, gson.toJson(this), Charset.forName("UTF-8"));
+            saveStatistics();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public String getName(){
+    public void saveStatistics() {
+        try {
+            Properties stats = new Properties();
+            File statsFile = new File(Environment.getExternalStorageDirectory() + "/StackSRS/stats");
+            if (!statsFile.exists()) // create stats file if it does not exist
+                statsFile.createNewFile();
+            stats.load(new FileReader(statsFile));
+
+            int numCards = stack.size();
+            stats.setProperty(name + ".num_cards", "" + numCards);
+            int numKnownCards = getNumberOfCardsWithMinLevel(3);
+            stats.setProperty(name + ".num_known_cards", "" + numKnownCards);
+            int numHotCards = numCards - numKnownCards;
+            stats.setProperty(name + ".num_hot_cards", "" + numHotCards);
+
+            stats.store(new FileWriter(statsFile), "");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private int getNumberOfCardsWithMinLevel(int level) {
+        int numCards = 0;
+        for (Card c : stack) {
+            if (c.getLevel() >= level)
+                numCards++;
+        }
+        return numCards;
+    }
+
+    public String getName() {
         return name;
     }
 
     public Card getNextCardToReview() {
-        if(stack.isEmpty())
+        if (stack.isEmpty())
             return null;
         return stack.get(0);
     }
 
     public void putReviewedCardBack(boolean right) {
-        if(stack.isEmpty())
+        if (stack.isEmpty())
             return;
         Card card = stack.remove(0);
         if (right) {
@@ -90,7 +126,7 @@ public class Deck {
     }
 
     public void editCurrentCard(String front, String back) {
-        if(stack.isEmpty())
+        if (stack.isEmpty())
             return;
         stack.get(0).edit(front, back);
         saveDeck();
@@ -116,11 +152,11 @@ public class Deck {
         }
     }
 
-    public boolean isUsingTTS(){
+    public boolean isUsingTTS() {
         return useTTS;
     }
 
-    public void setUsingTTS(boolean u){
+    public void setUsingTTS(boolean u) {
         useTTS = u;
     }
 
@@ -129,23 +165,23 @@ public class Deck {
         saveDeck();
     }
 
-    public void resetStrength(int level){
-        for(Card c : stack){
+    public void resetStrength(int level) {
+        for (Card c : stack) {
             c.resetLevel(level);
         }
     }
 
-    public void fillWithCards(List<Card> cards){
+    public void fillWithCards(List<Card> cards) {
         stack = cards;
         saveDeck();
     }
 
-    public List<Card> searchCards(String searchTerm){
+    public List<Card> searchCards(String searchTerm) {
         List<Card> result = new ArrayList<>();
-        for(Card c : stack){
-            if(c.contains(searchTerm))
+        for (Card c : stack) {
+            if (c.contains(searchTerm))
                 result.add(c);
-            if(result.size() >= 100)    // limit result to 100
+            if (result.size() >= 100)    // limit result to 100
                 return result;
         }
         return result;

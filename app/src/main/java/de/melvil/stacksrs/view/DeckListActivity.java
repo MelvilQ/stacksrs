@@ -16,19 +16,24 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Properties;
 
+import de.melvil.stacksrs.adapter.DeckInfoAdapter;
 import de.melvil.stacksrs.model.Card;
 import de.melvil.stacksrs.model.Deck;
+import de.melvil.stacksrs.model.DeckInfo;
 
 public class DeckListActivity extends AppCompatActivity {
 
     private ListView deckListView;
-    private ArrayAdapter<String> deckListAdapter;
-    private final List<String> deckNames = new ArrayList<>();
+    private DeckInfoAdapter deckListAdapter;
+    private final List<DeckInfo> deckInfoList = new ArrayList<>();
 
     private Button newButton;
     private Button downloadButton;
@@ -39,7 +44,7 @@ public class DeckListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_deck_list);
 
         deckListView = (ListView) findViewById(R.id.deck_list);
-        deckListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, deckNames);
+        deckListAdapter = new DeckInfoAdapter(this, deckInfoList);
         deckListView.setAdapter(deckListAdapter);
 
         // normal click: open deck
@@ -47,7 +52,7 @@ public class DeckListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // switch to download activity
-                String deckName = deckListAdapter.getItem(position);
+                final String deckName = deckListAdapter.getItem(position).getName();
                 Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
                 intent.putExtra("deck name", deckName);
                 startActivity(intent);
@@ -58,7 +63,7 @@ public class DeckListActivity extends AppCompatActivity {
         deckListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                final String deckName = deckListAdapter.getItem(position);
+                final String deckName = deckListAdapter.getItem(position).getName();
                 AlertDialog.Builder dialog = new AlertDialog.Builder(DeckListActivity.this);
                 dialog.setTitle("Delete Deck");
                 dialog.setMessage("Do you really want to delete \"" + deckName + "\"?");
@@ -111,7 +116,7 @@ public class DeckListActivity extends AppCompatActivity {
     }
 
     public void reloadDeckList() {
-        deckNames.clear();
+        deckInfoList.clear();
         File stackSRSDir = new File(Environment.getExternalStorageDirectory() + "/StackSRS");
         stackSRSDir.mkdir();    // create dir if not exists
         File[] deckFiles = stackSRSDir.listFiles();
@@ -120,16 +125,29 @@ public class DeckListActivity extends AppCompatActivity {
             deckListAdapter.notifyDataSetChanged();
             return;
         }
-        // sort by last edit
+        // sort deck files by last edit
         Arrays.sort(deckFiles, new Comparator<File>() {
             public int compare(File f1, File f2) {
                 return Long.valueOf(f2.lastModified()).compareTo(f1.lastModified());
             }
         });
-        // add to list
+        // load statistics
+        Properties stats = new Properties();
+        try {
+            File statsFile = new File(Environment.getExternalStorageDirectory() + "/StackSRS/stats");
+            if (!statsFile.exists()) // create stats file if it does not exist
+                statsFile.createNewFile();
+            stats.load(new FileReader(statsFile));
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        // add decks to list
         for(File f : deckFiles){
-            if(f.getName().endsWith(".json"))
-                deckNames.add(f.getName().replace(".json", ""));
+            if(f.getName().endsWith(".json")) {
+                String deckName = f.getName().replace(".json", "");
+                DeckInfo deckInfo = new DeckInfo(deckName, stats);
+                deckInfoList.add(deckInfo);
+            }
         }
         deckListAdapter.notifyDataSetChanged();
     }
@@ -154,7 +172,7 @@ public class DeckListActivity extends AppCompatActivity {
                 if (!deckName.matches("^[a-zA-Z0-9 \\-_.,()]+$")) {
                     Toast.makeText(getApplicationContext(),
                             "Illegal deck name.", Toast.LENGTH_SHORT).show();
-                } else if(deckNames.contains(deckName)){
+                } else if(deckInfoList.contains(deckName)){
                     Toast.makeText(getApplicationContext(),
                             "A deck \"" + deckName + "\" already exists!", Toast.LENGTH_SHORT)
                             .show();

@@ -17,4 +17,8 @@
         android:id="@+id/action_browser"
         android:title="Open Deck Browser"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_options"
+        android:title="Deck Options"
+        app:showAsAction="never" />
 </menu>

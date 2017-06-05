@@ -94,6 +94,14 @@ public class Deck {
         return name;
     }
 
+    public void changeName(String newDeckName){
+        File oldFile = new File(Environment.getExternalStorageDirectory()
+                + "/StackSRS/" + name + ".json");
+        oldFile.delete();
+        name = newDeckName;
+        saveDeck();
+    }
+
     public Card getNextCardToReview() {
         if (stack.isEmpty())
             return null;

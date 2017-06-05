@@ -17,8 +17,4 @@
         android:id="@+id/action_reset"
         android:title="Reset Card Strength"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/action_options"
-        android:title="Deck Options"
-        app:showAsAction="never" />
 </menu>

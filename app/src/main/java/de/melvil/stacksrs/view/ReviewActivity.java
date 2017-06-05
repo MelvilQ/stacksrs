@@ -82,6 +82,12 @@ public class ReviewActivity extends AppCompatActivity {
         showNextQuestion();
     }
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+        deck.saveDeck();
+    }
+
     private void showNextQuestion(){
         questionText.setText(deck.getNextCardToReview().getFront());
         answerText.setText("");

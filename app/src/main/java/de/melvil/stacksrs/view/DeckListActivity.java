@@ -4,36 +4,27 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Properties;
 
 import de.melvil.stacksrs.adapter.DeckInfoAdapter;
 import de.melvil.stacksrs.model.Card;
 import de.melvil.stacksrs.model.Deck;
-import de.melvil.stacksrs.model.DeckInfo;
+import de.melvil.stacksrs.model.DeckCollection;
 
 public class DeckListActivity extends AppCompatActivity {
 
     private ListView deckListView;
     private DeckInfoAdapter deckListAdapter;
-    private final List<DeckInfo> deckInfoList = new ArrayList<>();
+    private DeckCollection deckCollection = new DeckCollection();
 
     private Button newButton;
     private Button downloadButton;
@@ -44,7 +35,7 @@ public class DeckListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_deck_list);
 
         deckListView = (ListView) findViewById(R.id.deck_list);
-        deckListAdapter = new DeckInfoAdapter(this, deckInfoList);
+        deckListAdapter = new DeckInfoAdapter(this, deckCollection.getDeckInfos());
         deckListView.setAdapter(deckListAdapter);
 
         // normal click: open deck
@@ -69,11 +60,7 @@ public class DeckListActivity extends AppCompatActivity {
                 dialog.setMessage("Do you really want to delete \"" + deckName + "\"?");
                 dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // delete deck
-                        File deckFile = new File(Environment.getExternalStorageDirectory()
-                                + "/StackSRS/" + deckName + ".json");
-                        if(deckFile.exists())
-                            deckFile.delete();
+                        deckCollection.deleteDeckFile(deckName);
                         reloadDeckList();
                         dialog.dismiss();
                     }
@@ -116,38 +103,10 @@ public class DeckListActivity extends AppCompatActivity {
     }
 
     public void reloadDeckList() {
-        deckInfoList.clear();
-        File stackSRSDir = new File(Environment.getExternalStorageDirectory() + "/StackSRS");
-        stackSRSDir.mkdir();    // create dir if not exists
-        File[] deckFiles = stackSRSDir.listFiles();
-        if(deckFiles == null){
-            Toast.makeText(this, "Unable to load deck collection.", Toast.LENGTH_SHORT).show();
-            deckListAdapter.notifyDataSetChanged();
-            return;
-        }
-        // sort deck files by last edit
-        Arrays.sort(deckFiles, new Comparator<File>() {
-            public int compare(File f1, File f2) {
-                return Long.valueOf(f2.lastModified()).compareTo(f1.lastModified());
-            }
-        });
-        // load statistics
-        Properties stats = new Properties();
         try {
-            File statsFile = new File(Environment.getExternalStorageDirectory() + "/StackSRS/stats");
-            if (!statsFile.exists()) // create stats file if it does not exist
-                statsFile.createNewFile();
-            stats.load(new FileReader(statsFile));
+            deckCollection.reload();
         } catch(IOException e){
-            e.printStackTrace();
-        }
-        // add decks to list
-        for(File f : deckFiles){
-            if(f.getName().endsWith(".json")) {
-                String deckName = f.getName().replace(".json", "");
-                DeckInfo deckInfo = new DeckInfo(deckName, stats);
-                deckInfoList.add(deckInfo);
-            }
+            Toast.makeText(this, "Unable to load deck collection.", Toast.LENGTH_SHORT).show();
         }
         deckListAdapter.notifyDataSetChanged();
     }
@@ -169,10 +128,10 @@ public class DeckListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String deckName = editDeckName.getText().toString().trim();
-                if (!deckName.matches("^[a-zA-Z0-9 \\-_.,()]+$")) {
+                if (deckCollection.isIllegalDeckName(deckName)) {
                     Toast.makeText(getApplicationContext(),
                             "Illegal deck name.", Toast.LENGTH_SHORT).show();
-                } else if(deckInfoList.contains(deckName)){
+                } else if(deckCollection.deckWithNameExists(deckName)){
                     Toast.makeText(getApplicationContext(),
                             "A deck \"" + deckName + "\" already exists!", Toast.LENGTH_SHORT)
                             .show();

@@ -18,6 +18,7 @@ import java.io.IOException;
 
 import de.melvil.stacksrs.model.Card;
 import de.melvil.stacksrs.model.Deck;
+import de.melvil.stacksrs.model.DeckCollection;
 
 public class ReviewActivity extends AppCompatActivity {
 
@@ -199,6 +200,42 @@ public class ReviewActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), DeckBrowserActivity.class);
             intent.putExtra("deck name", deck.getName());
             startActivity(intent);
+        } else if (item.getItemId() == R.id.action_options) {
+            final Dialog dialog = new Dialog(ReviewActivity.this);
+            dialog.setContentView(R.layout.deck_dialog);
+            dialog.setTitle("Deck Options");
+            final EditText editDeckName = (EditText) dialog.findViewById(R.id.edit_deck_name);
+            editDeckName.setText(deckName);
+            Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
+            Button okButton = (Button) dialog.findViewById(R.id.button_ok);
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            okButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DeckCollection deckCollection = new DeckCollection();
+                    String newDeckName = editDeckName.getText().toString().trim();
+                    if(deckName.equals(newDeckName)) {
+                        // deck name has not been edited, so no action necessary...
+                    } else if (deckCollection.isIllegalDeckName(newDeckName)) {
+                        Toast.makeText(getApplicationContext(),
+                                "Illegal deck name.", Toast.LENGTH_SHORT).show();
+                    } else if(deckCollection.deckWithNameExists(newDeckName)){
+                        Toast.makeText(getApplicationContext(),
+                                "A deck \"" + deckName + "\" already exists!", Toast.LENGTH_SHORT)
+                                .show();
+                    } else {
+                        deck.changeName(newDeckName);
+                        ReviewActivity.this.setTitle(newDeckName);
+                        dialog.dismiss();
+                    }
+                }
+            });
+            dialog.show();
         }
         return super.onOptionsItemSelected(item);
     }

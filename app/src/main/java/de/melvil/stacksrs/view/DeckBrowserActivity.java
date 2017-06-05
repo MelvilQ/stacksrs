@@ -22,6 +22,7 @@ import java.util.List;
 
 import de.melvil.stacksrs.model.Card;
 import de.melvil.stacksrs.model.Deck;
+import de.melvil.stacksrs.model.DeckCollection;
 
 public class DeckBrowserActivity extends AppCompatActivity {
 
@@ -238,8 +239,6 @@ public class DeckBrowserActivity extends AppCompatActivity {
             });
             AlertDialog alert = builder.create();
             alert.show();
-        } else if (item.getItemId() == R.id.action_options) {
-            // TODO deck options
         }
         return true;
     }

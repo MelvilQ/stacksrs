@@ -29,7 +29,7 @@ public class Deck {
 
     private static Random random = new Random(System.currentTimeMillis());
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unused") // this constructor is necessary because of GSON
     public Deck() {
     }
 

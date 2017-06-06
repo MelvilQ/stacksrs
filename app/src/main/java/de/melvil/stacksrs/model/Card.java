@@ -6,7 +6,7 @@ public class Card {
     private String back;
     private int level;
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unused") // this constructor is necessary because of GSON
     public Card(){}
 
     public Card(String front, String back){

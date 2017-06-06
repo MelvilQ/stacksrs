@@ -14,12 +14,10 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +29,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
 
     private final String SERVER_URL = "http://stacksrs.droppages.com/";
 
-    private class DeckInfo {
+    private class DownloadableDeckInfo {
         public String name;
         public String file;
         public String front;
@@ -45,8 +43,8 @@ public class DeckDownloadActivity extends AppCompatActivity {
     }
 
     private ListView deckListView;
-    private ArrayAdapter<DeckInfo> deckListAdapter;
-    private List<DeckInfo> deckNames = new ArrayList<>();
+    private ArrayAdapter<DownloadableDeckInfo> deckListAdapter;
+    private List<DownloadableDeckInfo> deckNames = new ArrayList<>();
 
     private ProgressBar circle;
 
@@ -57,7 +55,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deck_download);
 
-        setTitle("Download Deck");
+        setTitle(getString(R.string.downloaded_deck));
 
         deckListView = (ListView) findViewById(R.id.deck_list);
         deckListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, deckNames);
@@ -66,23 +64,23 @@ public class DeckDownloadActivity extends AppCompatActivity {
         deckListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final DeckInfo deckInfo = deckNames.get(position);
+                final DownloadableDeckInfo deckInfo = deckNames.get(position);
                 AlertDialog.Builder builder = new AlertDialog.Builder(DeckDownloadActivity.this);
-                builder.setTitle("Download Deck");
-                builder.setMessage("Do you want to download the deck \"" + deckInfo.name + "\"?");
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                builder.setTitle(getString(R.string.downloaded_deck));
+                builder.setMessage(getString(R.string.really_download_deck, deckInfo.name));
+                builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 });
-                builder.setNeutralButton("Yes, as Beginner", new DialogInterface.OnClickListener() {
+                builder.setNeutralButton(getString(R.string.yes_level_0), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         downloadDeck(deckInfo.file, 0);
                         dialog.dismiss();
                     }
                 });
-                builder.setPositiveButton("Yes, as Expert", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getString(R.string.yes_level_2), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         downloadDeck(deckInfo.file, 2);
                         dialog.dismiss();
@@ -112,7 +110,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
                     JSONArray deckListArray = response.getJSONArray("decks");
                     for (int i = 0; i < deckListArray.length(); ++i) {
                         JSONObject deckInfoObject = deckListArray.getJSONObject(i);
-                        DeckInfo deckInfo = new DeckInfo();
+                        DownloadableDeckInfo deckInfo = new DownloadableDeckInfo();
                         deckInfo.name = deckInfoObject.getString("name");
                         deckInfo.file = deckInfoObject.getString("file");
                         deckInfo.front = deckInfoObject.getString("front");
@@ -121,7 +119,8 @@ public class DeckDownloadActivity extends AppCompatActivity {
                         deckNames.add(deckInfo);
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), "Could not load deck list from server.",
+                    Toast.makeText(getApplicationContext(),
+                            getString(R.string.could_not_load_deck_list_from_server),
                             Toast.LENGTH_SHORT).show();
                 }
                 deckListAdapter.notifyDataSetChanged();
@@ -131,7 +130,8 @@ public class DeckDownloadActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString,
                                   Throwable throwable) {
-                Toast.makeText(getApplicationContext(), "Could not connect to server. Are you online?",
+                Toast.makeText(getApplicationContext(),
+                        getString(R.string.could_not_connect_to_server),
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -154,10 +154,11 @@ public class DeckDownloadActivity extends AppCompatActivity {
                         cards.add(c);
                     }
                     newDeck.fillWithCards(cards);
-                    Toast.makeText(getApplicationContext(), "Downloaded " + deckName + ".",
+                    Toast.makeText(getApplicationContext(),
+                            getString(R.string.downloaded_deck, deckName),
                             Toast.LENGTH_SHORT).show();
                 } catch(JSONException e) {
-                    Toast.makeText(getApplicationContext(), "Could not load deck.",
+                    Toast.makeText(getApplicationContext(), getString(R.string.could_not_load_deck),
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -165,7 +166,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString,
                                   Throwable throwable) {
-                Toast.makeText(getApplicationContext(), "Downloading the deck failed. Are you online?",
+                Toast.makeText(getApplicationContext(), getString(R.string.downloading_deck_failed),
                         Toast.LENGTH_SHORT).show();
             }
         });

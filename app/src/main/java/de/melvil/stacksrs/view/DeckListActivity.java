@@ -56,16 +56,16 @@ public class DeckListActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 final String deckName = deckListAdapter.getItem(position).getName();
                 AlertDialog.Builder dialog = new AlertDialog.Builder(DeckListActivity.this);
-                dialog.setTitle("Delete Deck");
-                dialog.setMessage("Do you really want to delete \"" + deckName + "\"?");
-                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                dialog.setTitle(getString(R.string.delete_deck));
+                dialog.setMessage(getString(R.string.really_delete_deck, deckName));
+                dialog.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         deckCollection.deleteDeckFile(deckName);
                         reloadDeckList();
                         dialog.dismiss();
                     }
                 });
-                dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                dialog.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -106,7 +106,8 @@ public class DeckListActivity extends AppCompatActivity {
         try {
             deckCollection.reload();
         } catch(IOException e){
-            Toast.makeText(this, "Unable to load deck collection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.collection_could_not_be_loaded),
+                    Toast.LENGTH_SHORT).show();
         }
         deckListAdapter.notifyDataSetChanged();
     }
@@ -114,7 +115,7 @@ public class DeckListActivity extends AppCompatActivity {
     public void showNewDeckDialog(){
         final Dialog dialog = new Dialog(DeckListActivity.this);
         dialog.setContentView(R.layout.deck_dialog);
-        dialog.setTitle("New Deck");
+        dialog.setTitle(getString(R.string.new_deck));
         final EditText editDeckName = (EditText) dialog.findViewById(R.id.edit_deck_name);
         Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
         Button okButton = (Button) dialog.findViewById(R.id.button_ok);
@@ -130,10 +131,10 @@ public class DeckListActivity extends AppCompatActivity {
                 String deckName = editDeckName.getText().toString().trim();
                 if (deckCollection.isIllegalDeckName(deckName)) {
                     Toast.makeText(getApplicationContext(),
-                            "Illegal deck name.", Toast.LENGTH_SHORT).show();
+                            getString(R.string.illegal_deck_name), Toast.LENGTH_SHORT).show();
                 } else if(deckCollection.deckWithNameExists(deckName)){
                     Toast.makeText(getApplicationContext(),
-                            "A deck \"" + deckName + "\" already exists!", Toast.LENGTH_SHORT)
+                            getString(R.string.deck_already_exists, deckName), Toast.LENGTH_SHORT)
                             .show();
                 } else {
                     Deck newDeck = new Deck(deckName, "", "");

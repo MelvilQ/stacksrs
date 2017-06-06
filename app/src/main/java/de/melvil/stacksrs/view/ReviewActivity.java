@@ -75,7 +75,7 @@ public class ReviewActivity extends AppCompatActivity {
         try {
             deck = Deck.loadDeck(deckName);
         } catch(IOException e){
-            Toast.makeText(getApplicationContext(), "Deck could not be loaded...",
+            Toast.makeText(getApplicationContext(), getString(R.string.deck_could_not_be_loaded),
                     Toast.LENGTH_SHORT).show();
             // TODO better error handling
         }
@@ -115,7 +115,7 @@ public class ReviewActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.action_add){
             final Dialog dialog = new Dialog(ReviewActivity.this);
             dialog.setContentView(R.layout.card_dialog);
-            dialog.setTitle("Add New Card");
+            dialog.setTitle(getString(R.string.add_new_card));
             final EditText frontEdit = (EditText) dialog.findViewById(R.id.edit_front);
             final EditText backEdit = (EditText) dialog.findViewById(R.id.edit_back);
             Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
@@ -133,10 +133,10 @@ public class ReviewActivity extends AppCompatActivity {
                     String back = backEdit.getText().toString().trim();
                     if (front.length() == 0)
                         Toast.makeText(getApplicationContext(),
-                                "Front is empty.", Toast.LENGTH_SHORT).show();
+                                getString(R.string.front_is_empty), Toast.LENGTH_SHORT).show();
                     else if(back.length() == 0)
                         Toast.makeText(getApplicationContext(),
-                                "Back is empty.", Toast.LENGTH_SHORT).show();
+                                getString(R.string.back_is_empty), Toast.LENGTH_SHORT).show();
                     else {
                         deck.addNewCard(new Card(front, back));
                         showNextQuestion();
@@ -148,7 +148,7 @@ public class ReviewActivity extends AppCompatActivity {
         } else if(item.getItemId() == R.id.action_edit){
             final Dialog dialog = new Dialog(ReviewActivity.this);
             dialog.setContentView(R.layout.card_dialog);
-            dialog.setTitle("Edit Current Card");
+            dialog.setTitle(getString(R.string.edit_current_card));
             final EditText frontEdit = (EditText) dialog.findViewById(R.id.edit_front);
             frontEdit.setText(deck.getNextCardToReview().getFront());
             final EditText backEdit = (EditText) dialog.findViewById(R.id.edit_back);
@@ -168,10 +168,10 @@ public class ReviewActivity extends AppCompatActivity {
                     String back = backEdit.getText().toString().trim();
                     if (front.length() == 0)
                         Toast.makeText(getApplicationContext(),
-                                "Front is empty.", Toast.LENGTH_SHORT).show();
+                                getString(R.string.front_is_empty), Toast.LENGTH_SHORT).show();
                     else if(back.length() == 0)
                         Toast.makeText(getApplicationContext(),
-                                "Back is empty.", Toast.LENGTH_SHORT).show();
+                                getString(R.string.back_is_empty), Toast.LENGTH_SHORT).show();
                     else {
                         deck.editCurrentCard(front, back);
                         showNextQuestion();
@@ -182,20 +182,21 @@ public class ReviewActivity extends AppCompatActivity {
             dialog.show();
         } else if(item.getItemId() == R.id.action_delete){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Delete Card");
-            builder.setMessage("Do you really want to delete the current card?");
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            builder.setTitle(getString(R.string.delete_current_card));
+            builder.setMessage(getString(R.string.really_delete_card));
+            builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             });
-            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     boolean successful = deck.deleteCurrentCard();
                     if(!successful)
                         Toast.makeText(getApplicationContext(),
-                                "The last card can't be deleted!", Toast.LENGTH_SHORT).show();
+                                getString(R.string.cannot_delete_last_card), Toast.LENGTH_SHORT)
+                                .show();
                     showNextQuestion();
                     dialog.dismiss();
                 }
@@ -209,7 +210,7 @@ public class ReviewActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.action_options) {
             final Dialog dialog = new Dialog(ReviewActivity.this);
             dialog.setContentView(R.layout.deck_dialog);
-            dialog.setTitle("Deck Options");
+            dialog.setTitle(getString(R.string.deck_options));
             final EditText editDeckName = (EditText) dialog.findViewById(R.id.edit_deck_name);
             editDeckName.setText(deckName);
             Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
@@ -229,10 +230,10 @@ public class ReviewActivity extends AppCompatActivity {
                         // deck name has not been edited, so no action necessary...
                     } else if (deckCollection.isIllegalDeckName(newDeckName)) {
                         Toast.makeText(getApplicationContext(),
-                                "Illegal deck name.", Toast.LENGTH_SHORT).show();
+                                getString(R.string.illegal_deck_name), Toast.LENGTH_SHORT).show();
                     } else if(deckCollection.deckWithNameExists(newDeckName)){
                         Toast.makeText(getApplicationContext(),
-                                "A deck \"" + deckName + "\" already exists!", Toast.LENGTH_SHORT)
+                                getString(R.string.deck_already_exists, deckName), Toast.LENGTH_SHORT)
                                 .show();
                     } else {
                         deck.changeName(newDeckName);

@@ -3,22 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_add"
-        android:title="Add New Card"
+        android:title="@string/add_new_card"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_edit"
-        android:title="Edit Current Card"
+        android:title="@string/edit_current_card"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_delete"
-        android:title="Delete Current Card"
+        android:title="@string/delete_current_card"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_browser"
-        android:title="Open Deck Browser"
+        android:title="@string/open_deck_browser"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_options"
-        android:title="Deck Options"
+        android:title="@string/deck_options"
         app:showAsAction="never" />
 </menu>

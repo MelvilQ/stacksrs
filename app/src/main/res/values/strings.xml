@@ -1,4 +1,72 @@
 <resources>
     <string name="app_name">StackSRS</string>
     <string name="action_settings">Settings</string>
+
+    <!-- general -->
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="search">Search</string>
+
+    <!-- review activity menu -->
+    <string name="add_new_card">Add New Card</string>
+    <string name="edit_current_card">Edit Current Card</string>
+    <string name="delete_current_card">Delete Current Card</string>
+    <string name="open_deck_browser">Open Deck Browser</string>
+    <string name="deck_options">Deck Options</string>
+
+    <!-- deck browser menu -->
+    <string name="search_card">Search Card</string>
+    <!--<string name="add_new_card">Add New Card</string>-->
+    <string name="shuffle_deck">Shuffle Deck</string>
+    <string name="reset_card_strength">Reset Card Strength</string>
+
+    <!-- review activity dialogs -->
+    <string name="deck_could_not_be_loaded">Deck could not be loaded...</string>
+    <string name="front_is_empty">Front is empty.</string>
+    <string name="back_is_empty">Back is empty.</string>
+    <string name="really_delete_card">Do you really want to delete this card?</string>
+    <string name="cannot_delete_last_card">The last card can\'t be deleted!</string>
+
+    <!-- deck list dialogs -->
+    <string name="collection_could_not_be_loaded">Unable to load deck collection.</string>
+    <string name="new_deck">New Deck</string>
+    <string name="illegal_deck_name">Illegal deck name.</string>
+    <string name="deck_already_exists">A deck "%1$s" already exists!</string>
+    <string name="delete_deck">Delete Deck</string>
+    <string name="really_delete_deck">Do you really want to delete "%1$s"?</string>
+
+    <!-- deck browser dialogs -->
+    <string name="edit_card">Edit Card</string>
+    <string name="delete_card">Delete Card</string>
+    <string name="really_shuffle_deck">Do you really want to shuffle the deck?</string>
+    <string name="really_reset_strength">Reset the strength of all cards?</string>
+    <string name="yes_level_0">Yes, all cards Level 0</string>
+    <string name="yes_level_2">Yes, all cards Level 2</string>
+
+    <!-- deck download dialogs -->
+    <string name="could_not_load_deck_list_from_server">Could not load deck list from server.</string>
+    <string name="could_not_connect_to_server">Could not connect to server. Are you online?</string>
+    <string name="really_download_deck">Do you want to download the deck "%1$s"?</string>
+    <string name="downloaded_deck">Downloaded %1$s.</string>
+    <string name="could_not_load_deck">Could not load deck.</string>
+    <string name="downloading_deck_failed">Downloading the deck failed. Are you online?</string>
+
+    <!-- review activity layout -->
+    <string name="correct">Correct</string>
+    <string name="wrong">Wrong</string>
+    <string name="show_answer">Show Answer</string>
+
+    <!-- deck list layout -->
+    <string name="create_new_deck">Create New Deck</string>
+    <string name="download_deck">Download Deck</string>
+    <string name="no_decks_yet">You do not have any decks yet. Create or download one!</string>
+
+    <!-- dialog layouts -->
+    <string name="front">Front</string>
+    <string name="back">Back</string>
+    <string name="deck_name">Deck Name</string>
+
+
 </resources>

@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_search"
-        android:title="Search Card"
+        android:title="@string/search_card"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_add"
-        android:title="Add New Card"
+        android:title="@string/add_new_card"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_shuffle"
-        android:title="Shuffle Deck"
+        android:title="@string/shuffle_deck"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_reset"
-        android:title="Reset Card Strength"
+        android:title="@string/reset_card_strength"
         app:showAsAction="never" />
 </menu>

@@ -49,7 +49,7 @@ public class DeckBrowserActivity extends AppCompatActivity {
                 final Card card = cards.get(position);
                 final Dialog dialog = new Dialog(DeckBrowserActivity.this);
                 dialog.setContentView(R.layout.card_dialog);
-                dialog.setTitle("Edit Card");
+                dialog.setTitle(getString(R.string.edit_card));
                 final EditText frontEdit = (EditText) dialog.findViewById(R.id.edit_front);
                 frontEdit.setText(card.getFront());
                 final EditText backEdit = (EditText) dialog.findViewById(R.id.edit_back);
@@ -69,10 +69,10 @@ public class DeckBrowserActivity extends AppCompatActivity {
                         String back = backEdit.getText().toString().trim();
                         if (front.length() == 0)
                             Toast.makeText(getApplicationContext(),
-                                    "Front is empty.", Toast.LENGTH_SHORT).show();
+                                    getString(R.string.front_is_empty), Toast.LENGTH_SHORT).show();
                         else if(back.length() == 0)
                             Toast.makeText(getApplicationContext(),
-                                    "Back is empty.", Toast.LENGTH_SHORT).show();
+                                    getString(R.string.back_is_empty), Toast.LENGTH_SHORT).show();
                         else {
                             card.edit(front, back);
                             deck.saveDeck();
@@ -91,21 +91,22 @@ public class DeckBrowserActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 final Card card = cardAdapter.getItem(position);
                 AlertDialog.Builder dialog = new AlertDialog.Builder(DeckBrowserActivity.this);
-                dialog.setTitle("Delete Card");
-                dialog.setMessage("Do you really want to delete this card?");
-                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                dialog.setTitle(getString(R.string.delete_card));
+                dialog.setMessage(getString(R.string.really_delete_card));
+                dialog.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if(deck.deleteCard(card)) {
                             cards.remove(position);
                             cardAdapter.notifyDataSetChanged();
                         } else {
-                            Toast.makeText(getApplicationContext(), "The last card can't be deleted!",
+                            Toast.makeText(getApplicationContext(),
+                                    getString(R.string.cannot_delete_last_card),
                                     Toast.LENGTH_SHORT).show();
                         }
                         dialog.dismiss();
                     }
                 });
-                dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                dialog.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -126,7 +127,7 @@ public class DeckBrowserActivity extends AppCompatActivity {
         try {
             deck = Deck.loadDeck(deckName);
         } catch(IOException e){
-            Toast.makeText(getApplicationContext(), "Deck could not be loaded...",
+            Toast.makeText(getApplicationContext(), getString(R.string.deck_could_not_be_loaded),
                     Toast.LENGTH_SHORT).show();
             // TODO better error handling
         }
@@ -144,17 +145,17 @@ public class DeckBrowserActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.action_search){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Search Card");
+            builder.setTitle(getString(R.string.search_card));
             final EditText searchTermInput = new EditText(this);
             searchTermInput.setInputType(InputType.TYPE_CLASS_TEXT);
             builder.setView(searchTermInput);
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             });
-            builder.setPositiveButton("Search", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getString(R.string.search), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     displayCardList(searchTermInput.getText().toString().trim());
                     dialog.dismiss();
@@ -165,7 +166,7 @@ public class DeckBrowserActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.action_add) {
             final Dialog dialog = new Dialog(DeckBrowserActivity.this);
             dialog.setContentView(R.layout.card_dialog);
-            dialog.setTitle("Add New Card");
+            dialog.setTitle(getString(R.string.add_new_card));
             final EditText frontEdit = (EditText) dialog.findViewById(R.id.edit_front);
             final EditText backEdit = (EditText) dialog.findViewById(R.id.edit_back);
             Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
@@ -183,10 +184,10 @@ public class DeckBrowserActivity extends AppCompatActivity {
                     String back = backEdit.getText().toString().trim();
                     if (front.length() == 0)
                         Toast.makeText(getApplicationContext(),
-                                "Front is empty.", Toast.LENGTH_SHORT).show();
+                                getString(R.string.front_is_empty), Toast.LENGTH_SHORT).show();
                     else if (back.length() == 0)
                         Toast.makeText(getApplicationContext(),
-                                "Back is empty.", Toast.LENGTH_SHORT).show();
+                                getString(R.string.back_is_empty), Toast.LENGTH_SHORT).show();
                     else {
                         Card card = new Card(front, back);
                         deck.addNewCard(card);
@@ -198,15 +199,15 @@ public class DeckBrowserActivity extends AppCompatActivity {
             dialog.show();
         } else if(item.getItemId() == R.id.action_shuffle){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Shuffle Deck");
-            builder.setMessage("Do you really want to shuffle the deck?");
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            builder.setTitle(getString(R.string.shuffle_deck));
+            builder.setMessage(getString(R.string.really_shuffle_deck));
+            builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             });
-            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     deck.shuffleDeck();
                     displayCardList("");
@@ -217,21 +218,21 @@ public class DeckBrowserActivity extends AppCompatActivity {
             alert.show();
         } else if(item.getItemId() == R.id.action_reset){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Reset Card Strength");
-            builder.setMessage("Reset the strength of all cards?");
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            builder.setTitle(getString(R.string.reset_card_strength));
+            builder.setMessage(getString(R.string.really_reset_strength));
+            builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             });
-            builder.setNeutralButton("Yes, Beginner", new DialogInterface.OnClickListener() {
+            builder.setNeutralButton(getString(R.string.yes_level_0), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     deck.resetStrength(0);
                     dialog.dismiss();
                 }
             });
-            builder.setPositiveButton("Yes, Expert", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getString(R.string.yes_level_2), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     deck.resetStrength(2);
                     dialog.dismiss();

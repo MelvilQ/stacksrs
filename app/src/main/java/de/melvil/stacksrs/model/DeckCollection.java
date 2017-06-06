@@ -24,7 +24,7 @@ public class DeckCollection {
         stackSRSDir.mkdir();    // create dir if not exists
         File[] deckFiles = stackSRSDir.listFiles();
         if(deckFiles == null){
-            throw new IOException("Unable to load deck collection.");
+            throw new IOException("Deck files are not accessible.");
         }
         // sort deck files by last edit
         Arrays.sort(deckFiles, new Comparator<File>() {

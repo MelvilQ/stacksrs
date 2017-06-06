@@ -20,14 +20,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Create New Deck" />
+            android:text="@string/create_new_deck" />
 
         <Button
             android:id="@+id/button_download"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Download Deck" />
+            android:text="@string/download_deck" />
     </LinearLayout>
 
     <ListView
@@ -40,7 +40,7 @@
         android:id="@android:id/empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="You do not have any decks yet."
+        android:text="@string/no_decks_yet"
         android:visibility="invisible"/>
 
     </LinearLayout>

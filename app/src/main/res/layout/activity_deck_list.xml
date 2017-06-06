@@ -8,40 +8,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="100px"
-        android:orientation="horizontal" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100px"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/button_new"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/create_new_deck" />
+            <Button
+                android:id="@+id/button_new"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/create_new_deck" />
 
-        <Button
-            android:id="@+id/button_download"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/download_deck" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/button_download"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/download_deck" />
+        </LinearLayout>
 
-    <ListView
-        android:id="@+id/deck_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </ListView>
-
-    <TextView
-        android:id="@android:id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/no_decks_yet"
-        android:visibility="invisible"/>
+        <ListView
+            android:id="@+id/deck_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

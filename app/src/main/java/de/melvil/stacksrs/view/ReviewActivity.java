@@ -77,7 +77,7 @@ public class ReviewActivity extends AppCompatActivity {
         } catch(IOException e){
             Toast.makeText(getApplicationContext(), getString(R.string.deck_could_not_be_loaded),
                     Toast.LENGTH_SHORT).show();
-            // TODO better error handling
+            finish();
         }
         showNextQuestion();
     }

@@ -55,7 +55,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deck_download);
 
-        setTitle(getString(R.string.downloaded_deck));
+        setTitle(getString(R.string.download_deck));
 
         deckListView = (ListView) findViewById(R.id.deck_list);
         deckListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, deckNames);
@@ -66,7 +66,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final DownloadableDeckInfo deckInfo = deckNames.get(position);
                 AlertDialog.Builder builder = new AlertDialog.Builder(DeckDownloadActivity.this);
-                builder.setTitle(getString(R.string.downloaded_deck));
+                builder.setTitle(getString(R.string.download_deck));
                 builder.setMessage(getString(R.string.really_download_deck, deckInfo.name));
                 builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override

@@ -33,9 +33,9 @@
     <string name="collection_could_not_be_loaded">Deck-Sammlung konnte nicht geladen werden...</string>
     <string name="new_deck">Neues Deck</string>
     <string name="illegal_deck_name">Illegaler Deck-Name.</string>
-    <string name="deck_already_exists">Ein Deck "%1$s" gibt es schon!</string>
+    <string name="deck_already_exists">Ein Deck \"%1$s\" gibt es schon!</string>
     <string name="delete_deck">Deck löschen</string>
-    <string name="really_delete_deck">Willst du "%1$s" wirklich löschen?</string>
+    <string name="really_delete_deck">Willst du \"%1$s\" wirklich löschen?</string>
 
     <!-- deck browser dialogs -->
     <string name="edit_card">Karte editieren</string>
@@ -48,8 +48,8 @@
     <!-- deck download dialogs -->
     <string name="could_not_load_deck_list_from_server">Deck-Liste konnte nicht vom Server geladen werden.</string>
     <string name="could_not_connect_to_server">Keine Verbindung zum Server. Hast du Internet?</string>
-    <string name="really_download_deck">Willst du das Deck "%1$s" herunterladen?</string>
-    <string name="downloaded_deck">"%1$s" heruntergeladen.</string>
+    <string name="really_download_deck">Willst du das Deck \"%1$s\" herunterladen?</string>
+    <string name="downloaded_deck">\"%1$s\" heruntergeladen.</string>
     <string name="could_not_load_deck">Deck konnte nicht geladen werden.</string>
     <string name="downloading_deck_failed">Das Deck konnte nicht heruntergeladen werden. Hast du Internet?</string>
 

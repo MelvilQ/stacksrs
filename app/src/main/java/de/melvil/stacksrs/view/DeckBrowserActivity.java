@@ -26,6 +26,8 @@ import de.melvil.stacksrs.model.DeckCollection;
 
 public class DeckBrowserActivity extends AppCompatActivity {
 
+    private static final int MAX_RESULTS = 200;
+
     private String deckName;
     private Deck deck;
 
@@ -246,7 +248,7 @@ public class DeckBrowserActivity extends AppCompatActivity {
 
     private void displayCardList(String searchTerm){
         cards.clear();
-        cards.addAll(deck.searchCards(searchTerm));
+        cards.addAll(deck.searchCards(searchTerm, MAX_RESULTS));
         cardAdapter.notifyDataSetChanged();
     }
 }

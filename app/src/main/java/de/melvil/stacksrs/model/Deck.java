@@ -184,12 +184,12 @@ public class Deck {
         saveDeck();
     }
 
-    public List<Card> searchCards(String searchTerm) {
+    public List<Card> searchCards(String searchTerm, int maxResults) {
         List<Card> result = new ArrayList<>();
         for (Card c : stack) {
             if (c.contains(searchTerm))
                 result.add(c);
-            if (result.size() >= 100)    // limit result to 100
+            if (result.size() >= maxResults)    // limit result to 100
                 return result;
         }
         return result;

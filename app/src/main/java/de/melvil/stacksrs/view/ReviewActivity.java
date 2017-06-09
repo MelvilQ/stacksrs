@@ -22,11 +22,11 @@ import de.melvil.stacksrs.model.DeckCollection;
 
 public class ReviewActivity extends AppCompatActivity {
 
-    private TextView questionText;
-    private TextView answerText;
+    private TextView frontText;
+    private TextView backText;
     private Button wrongButton;
     private Button answerButton;
-    private Button rightButton;
+    private Button correctButton;
 
     private String deckName;
     private Deck deck;
@@ -36,11 +36,11 @@ public class ReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
 
-        questionText = (TextView) findViewById(R.id.text_front);
-        answerText = (TextView) findViewById(R.id.text_back);
+        frontText = (TextView) findViewById(R.id.text_front);
+        backText = (TextView) findViewById(R.id.text_back);
         wrongButton = (Button) findViewById(R.id.button_wrong);
         answerButton = (Button) findViewById(R.id.button_answer);
-        rightButton = (Button) findViewById(R.id.button_correct);
+        correctButton = (Button) findViewById(R.id.button_correct);
 
         wrongButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +49,7 @@ public class ReviewActivity extends AppCompatActivity {
                 showNextQuestion();
             }
         });
-        rightButton.setOnClickListener(new View.OnClickListener() {
+        correctButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deck.putReviewedCardBack(true);
@@ -89,17 +89,17 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     private void showNextQuestion(){
-        questionText.setText(deck.getNextCardToReview().getFront());
-        answerText.setText("");
+        frontText.setText(deck.getNextCardToReview().getFront());
+        backText.setText("");
         wrongButton.setVisibility(View.GONE);
-        rightButton.setVisibility(View.GONE);
+        correctButton.setVisibility(View.GONE);
         answerButton.setVisibility(View.VISIBLE);
     }
 
     private void showAnswer(){
-        answerText.setText(deck.getNextCardToReview().getBack());
+        backText.setText(deck.getNextCardToReview().getBack());
         wrongButton.setVisibility(View.VISIBLE);
-        rightButton.setVisibility(View.VISIBLE);
+        correctButton.setVisibility(View.VISIBLE);
         answerButton.setVisibility(View.GONE);
     }
 

@@ -177,6 +177,7 @@ public class Deck {
         for (Card c : stack) {
             c.resetLevel(level);
         }
+        saveDeck();
     }
 
     public void fillWithCards(List<Card> cards) {

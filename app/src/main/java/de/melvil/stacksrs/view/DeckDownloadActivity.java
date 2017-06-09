@@ -34,11 +34,11 @@ public class DeckDownloadActivity extends AppCompatActivity {
         public String file;
         public String front;
         public String back;
-        public String updated;
+        public String description;
 
         @Override
         public String toString() {
-            return name + "\n" + "Last update: " + updated;
+            return name + "\n" + description;
         }
     }
 
@@ -115,7 +115,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
                         deckInfo.file = deckInfoObject.getString("file");
                         deckInfo.front = deckInfoObject.getString("front");
                         deckInfo.back = deckInfoObject.getString("back");
-                        deckInfo.updated = deckInfoObject.getString("updated");
+                        deckInfo.description = deckInfoObject.getString("description");
                         deckNames.add(deckInfo);
                     }
                 } catch (JSONException e) {

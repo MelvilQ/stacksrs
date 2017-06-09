@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import de.melvil.stacksrs.model.Card;
 import de.melvil.stacksrs.model.Deck;
@@ -30,6 +33,8 @@ public class ReviewActivity extends AppCompatActivity {
 
     private String deckName;
     private Deck deck;
+
+    private TextToSpeech tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +71,14 @@ public class ReviewActivity extends AppCompatActivity {
         deckName = getIntent().getStringExtra("deck name");
         setTitle(deckName);
 
-
+        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener(){
+            @Override
+            public void onInit(int status){
+                if (status == TextToSpeech.SUCCESS) {
+                    tts.setLanguage(Locale.UK);
+                }
+            }
+        });
     }
 
     @Override
@@ -97,12 +109,22 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     private void showAnswer(){
+        String back = deck.getNextCardToReview().getBack();
         backText.setText(deck.getNextCardToReview().getBack());
         wrongButton.setVisibility(View.VISIBLE);
         correctButton.setVisibility(View.VISIBLE);
         answerButton.setVisibility(View.GONE);
+        // TODO if TTS is aktivated, speak answer
+        speakWord(back);
     }
 
+    private void speakWord(String text){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+        } else {
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

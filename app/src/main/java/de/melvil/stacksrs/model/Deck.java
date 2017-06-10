@@ -38,6 +38,7 @@ public class Deck {
         this.name = name;
         this.languageFront = languageFront;
         this.languageBack = languageBack;
+        this.countryBack = "";
         this.useTTS = false;
     }
 

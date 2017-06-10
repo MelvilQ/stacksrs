@@ -174,7 +174,7 @@ public class Deck {
 
     public String getLanguage(){
         if(language != null)
-            return language;
+            return language.toLowerCase();
         else
             return "";
     }
@@ -185,7 +185,7 @@ public class Deck {
 
     public String getAccent(){
         if(accent != null)
-            return accent;
+            return accent.toUpperCase();
         else
             return "";
     }

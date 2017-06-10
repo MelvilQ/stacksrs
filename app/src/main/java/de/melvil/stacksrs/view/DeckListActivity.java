@@ -143,8 +143,8 @@ public class DeckListActivity extends AppCompatActivity {
                 } else {
                     Deck newDeck = new Deck(deckName, "");
                     newDeck.addNewCard(new Card("default", "default", 10));
-                    newDeck.setLanguage(editLanguage.getText().toString().trim());
-                    newDeck.setAccent(editAccent.getText().toString().trim());
+                    newDeck.setLanguage(editLanguage.getText().toString().trim().toLowerCase());
+                    newDeck.setAccent(editAccent.getText().toString().trim().toUpperCase());
                     if(checkBoxTTS.isChecked())
                         newDeck.activateTTS();
                     newDeck.saveDeck();

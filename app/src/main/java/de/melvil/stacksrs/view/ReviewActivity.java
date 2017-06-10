@@ -297,8 +297,8 @@ public class ReviewActivity extends AppCompatActivity {
                             deck.changeName(newDeckName);
                             deckName = newDeckName;
                         }
-                        deck.setLanguage(editLanguage.getText().toString().trim());
-                        deck.setAccent(editAccent.getText().toString().trim());
+                        deck.setLanguage(editLanguage.getText().toString().trim().toLowerCase());
+                        deck.setAccent(editAccent.getText().toString().trim().toUpperCase());
                         if(checkBoxTTS.isChecked())
                             deck.activateTTS();
                         else

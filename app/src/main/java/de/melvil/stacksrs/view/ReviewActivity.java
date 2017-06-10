@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import de.melvil.stacksrs.model.Card;
 import de.melvil.stacksrs.model.Deck;
@@ -30,6 +33,8 @@ public class ReviewActivity extends AppCompatActivity {
 
     private String deckName;
     private Deck deck;
+
+    private TextToSpeech tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +70,6 @@ public class ReviewActivity extends AppCompatActivity {
 
         deckName = getIntent().getStringExtra("deck name");
         setTitle(deckName);
-
-
     }
 
     @Override
@@ -74,12 +77,38 @@ public class ReviewActivity extends AppCompatActivity {
         super.onResume();
         try {
             deck = Deck.loadDeck(deckName);
+            if(deck.isUsingTTS())
+                initTTS();
+            showNextQuestion();
         } catch(IOException e){
             Toast.makeText(getApplicationContext(), getString(R.string.deck_could_not_be_loaded),
                     Toast.LENGTH_SHORT).show();
             finish();
         }
-        showNextQuestion();
+    }
+
+    private void initTTS(){
+        final Locale locale = getLocaleForTTS();
+        if(locale != null){
+            tts = new TextToSpeech(this, new TextToSpeech.OnInitListener(){
+                @Override
+                public void onInit(int status) {
+                    if (status == TextToSpeech.SUCCESS) {
+                        tts.setLanguage(locale);
+                    }
+                }
+            });
+        }
+    }
+
+    private Locale getLocaleForTTS(){
+        String lang = deck.getLanguageOfBack();
+        if(lang == null || lang.equals(""))
+            return null;
+        String country = deck.getCountryOfBack();
+        if(country == null || country.equals(""))
+            return new Locale(lang);
+        return new Locale(lang, country);
     }
 
     @Override
@@ -97,12 +126,25 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     private void showAnswer(){
+        String back = deck.getNextCardToReview().getBack();
         backText.setText(deck.getNextCardToReview().getBack());
         wrongButton.setVisibility(View.VISIBLE);
         correctButton.setVisibility(View.VISIBLE);
         answerButton.setVisibility(View.GONE);
+
+        if(deck.isUsingTTS())
+            speakWord(back);
     }
 
+    private void speakWord(String text){
+        if(tts == null)
+            return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+        } else {
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

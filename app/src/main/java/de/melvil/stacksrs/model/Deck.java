@@ -23,6 +23,7 @@ public class Deck {
     private String name;
     private String languageFront;
     private String languageBack;
+    private String countryBack; // to determine which accent to use for TTS
     private boolean useTTS;
 
     private List<Card> stack = new ArrayList<>();
@@ -37,6 +38,7 @@ public class Deck {
         this.name = name;
         this.languageFront = languageFront;
         this.languageBack = languageBack;
+        this.countryBack = "";
         this.useTTS = false;
     }
 
@@ -164,8 +166,28 @@ public class Deck {
         return useTTS;
     }
 
-    public void setUsingTTS(boolean u) {
-        useTTS = u;
+    public void activateTTS() {
+        useTTS = true;
+    }
+
+    public void deactivateTTS() {
+        useTTS = false;
+    }
+
+    public String getLanguageOfFront(){
+        return languageFront;
+    }
+
+    public String getLanguageOfBack(){
+        return languageBack;
+    }
+
+    public String getCountryOfBack(){
+        return countryBack;
+    }
+
+    public void setCountryOfBack(String country){
+        countryBack = country;
     }
 
     public void shuffleDeck() {

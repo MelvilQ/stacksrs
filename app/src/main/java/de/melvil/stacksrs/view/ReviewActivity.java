@@ -278,6 +278,11 @@ public class ReviewActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     DeckCollection deckCollection = new DeckCollection();
+                    try {
+                        deckCollection.reload();
+                    } catch (IOException e){
+                        e.printStackTrace();
+                    }
                     String newDeckName = editDeckName.getText().toString().trim();
                     boolean deckNameChanged = !newDeckName.equals(deckName);
                     if (deckCollection.isIllegalDeckName(newDeckName)) {
@@ -285,7 +290,7 @@ public class ReviewActivity extends AppCompatActivity {
                                 getString(R.string.illegal_deck_name), Toast.LENGTH_SHORT).show();
                     } else if(deckNameChanged && deckCollection.deckWithNameExists(newDeckName)){
                         Toast.makeText(getApplicationContext(),
-                                getString(R.string.deck_already_exists, deckName), Toast.LENGTH_SHORT)
+                                getString(R.string.deck_already_exists, newDeckName), Toast.LENGTH_SHORT)
                                 .show();
                     } else {
                         if(deckNameChanged) {

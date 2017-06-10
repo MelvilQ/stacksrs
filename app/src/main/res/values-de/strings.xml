@@ -66,5 +66,6 @@
     <string name="front">Vorderseite</string>
     <string name="back">Rückseite</string>
     <string name="deck_name">Deck-Name</string>
+    <string name="read_back_aloud">Rückseite vorlesen</string>
 
 </resources>

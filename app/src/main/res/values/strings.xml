@@ -66,5 +66,6 @@
     <string name="front">Front</string>
     <string name="back">Back</string>
     <string name="deck_name">Deck Name</string>
+    <string name="read_back_aloud">Read Back Aloud</string>
 
 </resources>

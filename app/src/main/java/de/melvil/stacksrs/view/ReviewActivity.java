@@ -70,15 +70,6 @@ public class ReviewActivity extends AppCompatActivity {
 
         deckName = getIntent().getStringExtra("deck name");
         setTitle(deckName);
-
-        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener(){
-            @Override
-            public void onInit(int status){
-                if (status == TextToSpeech.SUCCESS) {
-                    tts.setLanguage(Locale.UK);
-                }
-            }
-        });
     }
 
     @Override
@@ -86,12 +77,38 @@ public class ReviewActivity extends AppCompatActivity {
         super.onResume();
         try {
             deck = Deck.loadDeck(deckName);
+            if(deck.isUsingTTS())
+                initTTS();
+            showNextQuestion();
         } catch(IOException e){
             Toast.makeText(getApplicationContext(), getString(R.string.deck_could_not_be_loaded),
                     Toast.LENGTH_SHORT).show();
             finish();
         }
-        showNextQuestion();
+    }
+
+    private void initTTS(){
+        final Locale locale = getLocaleForTTS();
+        if(locale != null){
+            tts = new TextToSpeech(this, new TextToSpeech.OnInitListener(){
+                @Override
+                public void onInit(int status) {
+                    if (status == TextToSpeech.SUCCESS) {
+                        tts.setLanguage(locale);
+                    }
+                }
+            });
+        }
+    }
+
+    private Locale getLocaleForTTS(){
+        String lang = deck.getLanguageOfBack();
+        if(lang == null || lang.equals(""))
+            return null;
+        String country = deck.getCountryOfBack();
+        if(country == null || country.equals(""))
+            return new Locale(lang);
+        return new Locale(lang, country);
     }
 
     @Override
@@ -114,11 +131,14 @@ public class ReviewActivity extends AppCompatActivity {
         wrongButton.setVisibility(View.VISIBLE);
         correctButton.setVisibility(View.VISIBLE);
         answerButton.setVisibility(View.GONE);
-        // TODO if TTS is aktivated, speak answer
-        speakWord(back);
+
+        if(deck.isUsingTTS())
+            speakWord(back);
     }
 
     private void speakWord(String text){
+        if(tts == null)
+            return;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
         } else {

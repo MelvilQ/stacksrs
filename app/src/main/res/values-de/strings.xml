@@ -67,7 +67,7 @@
     <string name="back">Rückseite</string>
     <string name="deck_name">Deck-Name</string>
     <string name="language_back">Sprache Rückseite (z.B. \"en\")</string>
-    <string name="accent_optional">Akzent (z.B. \"UK\")</string>
+    <string name="accent_optional">Akzent (z.B. \"US\", \"GB\")</string>
     <string name="read_back_aloud">Rückseite vorlesen</string>
 
 </resources>

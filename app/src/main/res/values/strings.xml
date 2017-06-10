@@ -66,8 +66,8 @@
     <string name="front">Front</string>
     <string name="back">Back</string>
     <string name="deck_name">Deck Name</string>
-    <string name="language_back">Back Language (i.e. \"en\")</string>
-    <string name="accent_optional">Accent (i.e. \"UK\")</string>
+    <string name="language_back">Back Language (e.g. \"en\")</string>
+    <string name="accent_optional">Accent (e.g. \"US\", \"GB\")</string>
     <string name="read_back_aloud">Read Back Aloud</string>
 
 </resources>

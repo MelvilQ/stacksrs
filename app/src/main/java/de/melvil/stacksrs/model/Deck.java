@@ -176,11 +176,15 @@ public class Deck {
         return language;
     }
 
+    public void setLanguage(String lang){
+        this.language = lang;
+    }
+
     public String getAccent(){
         return accent;
     }
 
-    public void setCountryOfBack(String country){
+    public void setAccent(String country){
         accent = country;
     }
 

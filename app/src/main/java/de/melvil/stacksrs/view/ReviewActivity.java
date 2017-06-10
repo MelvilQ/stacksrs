@@ -260,6 +260,10 @@ public class ReviewActivity extends AppCompatActivity {
             dialog.setTitle(getString(R.string.deck_options));
             final EditText editDeckName = (EditText) dialog.findViewById(R.id.edit_deck_name);
             editDeckName.setText(deckName);
+            final EditText editLanguage = (EditText) dialog.findViewById(R.id.edit_language);
+            editLanguage.setText(deck.getLanguage());
+            final EditText editAccent = (EditText) dialog.findViewById(R.id.edit_accent);
+            editAccent.setText(deck.getAccent());
             final CheckBox checkBoxTTS = (CheckBox) dialog.findViewById(R.id.checkbox_tts);
             checkBoxTTS.setChecked(deck.isUsingTTS());
             Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
@@ -288,6 +292,8 @@ public class ReviewActivity extends AppCompatActivity {
                             deck.changeName(newDeckName);
                             deckName = newDeckName;
                         }
+                        deck.setLanguage(editLanguage.getText().toString().trim());
+                        deck.setAccent(editAccent.getText().toString().trim());
                         if(checkBoxTTS.isChecked())
                             deck.activateTTS();
                         else

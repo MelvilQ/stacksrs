@@ -102,10 +102,10 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     private Locale getLocaleForTTS(){
-        String lang = deck.getLanguageOfBack();
+        String lang = deck.getLanguage();
         if(lang == null || lang.equals(""))
             return null;
-        String country = deck.getCountryOfBack();
+        String country = deck.getAccent();
         if(country == null || country.equals(""))
             return new Locale(lang);
         return new Locale(lang, country);

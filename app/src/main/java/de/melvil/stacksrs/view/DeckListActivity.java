@@ -137,7 +137,7 @@ public class DeckListActivity extends AppCompatActivity {
                             getString(R.string.deck_already_exists, deckName), Toast.LENGTH_SHORT)
                             .show();
                 } else {
-                    Deck newDeck = new Deck(deckName, "", "");
+                    Deck newDeck = new Deck(deckName, "");
                     newDeck.addNewCard(new Card("default", "default", 10));
                     newDeck.saveDeck();
                     reloadDeckList();

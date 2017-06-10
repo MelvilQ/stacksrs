@@ -143,8 +143,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     String deckName = response.getString("name");
-                    Deck newDeck = new Deck(deckName, response.getString("front"),
-                            response.getString("back"));
+                    Deck newDeck = new Deck(deckName, response.getString("back"));
                     JSONArray cardArray = response.getJSONArray("cards");
                     List<Card> cards = new ArrayList<>();
                     for(int i = 0; i < cardArray.length(); ++i) {

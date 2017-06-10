@@ -51,20 +51,20 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 deck.putReviewedCardBack(false);
-                showNextQuestion();
+                showNextCard();
             }
         });
         correctButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deck.putReviewedCardBack(true);
-                showNextQuestion();
+                showNextCard();
             }
         });
         answerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAnswer();
+                showBack();
             }
         });
 
@@ -79,7 +79,7 @@ public class ReviewActivity extends AppCompatActivity {
             deck = Deck.loadDeck(deckName);
             if(deck.isUsingTTS())
                 initTTS();
-            showNextQuestion();
+            showNextCard();
         } catch(IOException e){
             Toast.makeText(getApplicationContext(), getString(R.string.deck_could_not_be_loaded),
                     Toast.LENGTH_SHORT).show();
@@ -117,7 +117,7 @@ public class ReviewActivity extends AppCompatActivity {
         deck.saveDeck();
     }
 
-    private void showNextQuestion(){
+    private void showNextCard(){
         frontText.setText(deck.getNextCardToReview().getFront());
         backText.setText("");
         wrongButton.setVisibility(View.GONE);
@@ -125,7 +125,7 @@ public class ReviewActivity extends AppCompatActivity {
         answerButton.setVisibility(View.VISIBLE);
     }
 
-    private void showAnswer(){
+    private void showBack(){
         String back = deck.getNextCardToReview().getBack();
         backText.setText(deck.getNextCardToReview().getBack());
         wrongButton.setVisibility(View.VISIBLE);
@@ -181,7 +181,7 @@ public class ReviewActivity extends AppCompatActivity {
                                 getString(R.string.back_is_empty), Toast.LENGTH_SHORT).show();
                     else {
                         deck.addNewCard(new Card(front, back));
-                        showNextQuestion();
+                        showNextCard();
                         dialog.dismiss();
                     }
                 }
@@ -216,7 +216,7 @@ public class ReviewActivity extends AppCompatActivity {
                                 getString(R.string.back_is_empty), Toast.LENGTH_SHORT).show();
                     else {
                         deck.editCurrentCard(front, back);
-                        showNextQuestion();
+                        showNextCard();
                         dialog.dismiss();
                     }
                 }
@@ -239,7 +239,7 @@ public class ReviewActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),
                                 getString(R.string.cannot_delete_last_card), Toast.LENGTH_SHORT)
                                 .show();
-                    showNextQuestion();
+                    showNextCard();
                     dialog.dismiss();
                 }
             });

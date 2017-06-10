@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,12 +70,16 @@ public class ReviewActivity extends AppCompatActivity {
         });
 
         deckName = getIntent().getStringExtra("deck name");
-        setTitle(deckName);
     }
 
     @Override
     protected void onResume(){
         super.onResume();
+        reloadDeck();
+    }
+
+    private void reloadDeck(){
+        setTitle(deckName);
         try {
             deck = Deck.loadDeck(deckName);
             if(deck.isUsingTTS())
@@ -255,6 +260,12 @@ public class ReviewActivity extends AppCompatActivity {
             dialog.setTitle(getString(R.string.deck_options));
             final EditText editDeckName = (EditText) dialog.findViewById(R.id.edit_deck_name);
             editDeckName.setText(deckName);
+            final EditText editLanguage = (EditText) dialog.findViewById(R.id.edit_language);
+            editLanguage.setText(deck.getLanguage());
+            final EditText editAccent = (EditText) dialog.findViewById(R.id.edit_accent);
+            editAccent.setText(deck.getAccent());
+            final CheckBox checkBoxTTS = (CheckBox) dialog.findViewById(R.id.checkbox_tts);
+            checkBoxTTS.setChecked(deck.isUsingTTS());
             Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
             Button okButton = (Button) dialog.findViewById(R.id.button_ok);
             cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -267,19 +278,34 @@ public class ReviewActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     DeckCollection deckCollection = new DeckCollection();
+                    try {
+                        deckCollection.reload();
+                    } catch (IOException e){
+                        e.printStackTrace();
+                    }
                     String newDeckName = editDeckName.getText().toString().trim();
-                    if(deckName.equals(newDeckName)) {
-                        // deck name has not been edited, so no action necessary...
-                    } else if (deckCollection.isIllegalDeckName(newDeckName)) {
+                    boolean deckNameChanged = !newDeckName.equals(deckName);
+                    if (deckCollection.isIllegalDeckName(newDeckName)) {
                         Toast.makeText(getApplicationContext(),
                                 getString(R.string.illegal_deck_name), Toast.LENGTH_SHORT).show();
-                    } else if(deckCollection.deckWithNameExists(newDeckName)){
+                    } else if(deckNameChanged && deckCollection.deckWithNameExists(newDeckName)){
                         Toast.makeText(getApplicationContext(),
-                                getString(R.string.deck_already_exists, deckName), Toast.LENGTH_SHORT)
+                                getString(R.string.deck_already_exists, newDeckName), Toast.LENGTH_SHORT)
                                 .show();
                     } else {
-                        deck.changeName(newDeckName);
-                        ReviewActivity.this.setTitle(newDeckName);
+                        if(deckNameChanged) {
+                            deck.changeName(newDeckName);
+                            deckName = newDeckName;
+                        }
+                        deck.setLanguage(editLanguage.getText().toString().trim());
+                        deck.setAccent(editAccent.getText().toString().trim());
+                        if(checkBoxTTS.isChecked())
+                            deck.activateTTS();
+                        else
+                            deck.deactivateTTS();
+                        deck.saveDeck();
+
+                        reloadDeck();
                         dialog.dismiss();
                     }
                 }

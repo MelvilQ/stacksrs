@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -117,6 +118,9 @@ public class DeckListActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.deck_dialog);
         dialog.setTitle(getString(R.string.new_deck));
         final EditText editDeckName = (EditText) dialog.findViewById(R.id.edit_deck_name);
+        final EditText editLanguage = (EditText) dialog.findViewById(R.id.edit_language);
+        final EditText editAccent = (EditText) dialog.findViewById(R.id.edit_accent);
+        final CheckBox checkBoxTTS = (CheckBox) dialog.findViewById(R.id.checkbox_tts);
         Button cancelButton = (Button) dialog.findViewById(R.id.button_cancel);
         Button okButton = (Button) dialog.findViewById(R.id.button_ok);
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +143,10 @@ public class DeckListActivity extends AppCompatActivity {
                 } else {
                     Deck newDeck = new Deck(deckName, "");
                     newDeck.addNewCard(new Card("default", "default", 10));
+                    newDeck.setLanguage(editLanguage.getText().toString().trim());
+                    newDeck.setAccent(editAccent.getText().toString().trim());
+                    if(checkBoxTTS.isChecked())
+                        newDeck.activateTTS();
                     newDeck.saveDeck();
                     reloadDeckList();
                     dialog.dismiss();

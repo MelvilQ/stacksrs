@@ -18,6 +18,40 @@
         android:id="@+id/edit_deck_name"
         android:layout_gravity="center_horizontal"/>
 
+    <TextView
+        android:layout_width="500px"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/language_back"
+        android:id="@+id/label_language"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="80px"
+        android:textColor="#FFFFFF"
+        android:id="@+id/edit_language"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="500px"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/accent_optional"
+        android:id="@+id/label_accent"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="80px"
+        android:textColor="#FFFFFF"
+        android:id="@+id/edit_accent"
+        android:layout_gravity="center_horizontal"/>
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkbox_tts"
+        android:text="@string/read_back_aloud"/>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"

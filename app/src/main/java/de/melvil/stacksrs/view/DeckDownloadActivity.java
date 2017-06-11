@@ -18,12 +18,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import de.melvil.stacksrs.model.Card;
 import de.melvil.stacksrs.model.Deck;
+import de.melvil.stacksrs.model.DeckCollection;
 
 public class DeckDownloadActivity extends AppCompatActivity {
 
@@ -65,6 +67,20 @@ public class DeckDownloadActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final DownloadableDeckInfo deckInfo = deckNames.get(position);
+                // check if there already is a deck with the same name
+                DeckCollection deckCollection = new DeckCollection();
+                try {
+                    deckCollection.reload();
+                } catch(IOException e){
+                    e.printStackTrace();
+                }
+                if(deckCollection.deckWithNameExists(deckInfo.name)){
+                    Toast.makeText(getApplicationContext(),
+                            getString(R.string.deck_exists_please_rename, deckInfo.name),
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                // show download dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(DeckDownloadActivity.this);
                 builder.setTitle(getString(R.string.download_deck));
                 builder.setMessage(getString(R.string.really_download_deck, deckInfo.name));

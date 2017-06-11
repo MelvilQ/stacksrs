@@ -48,6 +48,7 @@
     <!-- deck download dialogs -->
     <string name="could_not_load_deck_list_from_server">Could not load deck list from server.</string>
     <string name="could_not_connect_to_server">Could not connect to server. Are you online?</string>
+    <string name="deck_exists_please_rename">A deck \"%1$s\" already exists. Please delete it or rename it.</string>
     <string name="really_download_deck">Do you want to download the deck \"%1$s\"?</string>
     <string name="downloaded_deck">Downloaded \"%1$s\".</string>
     <string name="could_not_load_deck">Could not load deck.</string>

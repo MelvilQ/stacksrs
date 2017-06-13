@@ -26,23 +26,11 @@ import cz.msebera.android.httpclient.Header;
 import de.melvil.stacksrs.model.Card;
 import de.melvil.stacksrs.model.Deck;
 import de.melvil.stacksrs.model.DeckCollection;
+import de.melvil.stacksrs.model.DownloadableDeckInfo;
 
 public class DeckDownloadActivity extends AppCompatActivity {
 
     private final String SERVER_URL = "http://stacksrs.droppages.com/";
-
-    private class DownloadableDeckInfo {
-        public String name;
-        public String file;
-        public String front;
-        public String back;
-        public String description;
-
-        @Override
-        public String toString() {
-            return name + "\n" + description;
-        }
-    }
 
     private ListView deckListView;
     private ArrayAdapter<DownloadableDeckInfo> deckListAdapter;
@@ -74,16 +62,16 @@ public class DeckDownloadActivity extends AppCompatActivity {
                 } catch(IOException e){
                     e.printStackTrace();
                 }
-                if(deckCollection.deckWithNameExists(deckInfo.name)){
+                if(deckCollection.deckWithNameExists(deckInfo.getName())){
                     Toast.makeText(getApplicationContext(),
-                            getString(R.string.deck_exists_please_rename, deckInfo.name),
+                            getString(R.string.deck_exists_please_rename, deckInfo.getName()),
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
                 // show download dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(DeckDownloadActivity.this);
                 builder.setTitle(getString(R.string.download_deck));
-                builder.setMessage(getString(R.string.really_download_deck, deckInfo.name));
+                builder.setMessage(getString(R.string.really_download_deck, deckInfo.getName()));
                 builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -92,7 +80,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
                 });
                 builder.setPositiveButton(getString(R.string.download_deck), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        downloadDeck(deckInfo.file, 2);
+                        downloadDeck(deckInfo.getFile(), 2);
                         dialog.dismiss();
                     }
                 });
@@ -119,13 +107,8 @@ public class DeckDownloadActivity extends AppCompatActivity {
                 try {
                     JSONArray deckListArray = response.getJSONArray("decks");
                     for (int i = 0; i < deckListArray.length(); ++i) {
-                        JSONObject deckInfoObject = deckListArray.getJSONObject(i);
-                        DownloadableDeckInfo deckInfo = new DownloadableDeckInfo();
-                        deckInfo.name = deckInfoObject.getString("name");
-                        deckInfo.file = deckInfoObject.getString("file");
-                        deckInfo.front = deckInfoObject.getString("front");
-                        deckInfo.back = deckInfoObject.getString("back");
-                        deckInfo.description = deckInfoObject.getString("description");
+                        DownloadableDeckInfo deckInfo = new DownloadableDeckInfo(
+                                deckListArray.getJSONObject(i));
                         deckNames.add(deckInfo);
                     }
                 } catch (JSONException e) {

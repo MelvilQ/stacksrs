@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="500px"
+        android:layout_width="500dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/deck_name"
@@ -13,13 +13,14 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="80px"
+        android:layout_height="50dp"
+        android:inputType="text"
         android:textColor="#FFFFFF"
         android:id="@+id/edit_deck_name"
         android:layout_gravity="center_horizontal"/>
 
     <TextView
-        android:layout_width="500px"
+        android:layout_width="500dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/language_back"
@@ -27,13 +28,14 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="80px"
+        android:layout_height="50dp"
+        android:inputType="text"
         android:textColor="#FFFFFF"
         android:id="@+id/edit_language"
         android:layout_gravity="center_horizontal"/>
 
     <TextView
-        android:layout_width="500px"
+        android:layout_width="500dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/accent_optional"
@@ -41,7 +43,8 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="80px"
+        android:layout_height="50dp"
+        android:inputType="text"
         android:textColor="#FFFFFF"
         android:id="@+id/edit_accent"
         android:layout_gravity="center_horizontal"/>

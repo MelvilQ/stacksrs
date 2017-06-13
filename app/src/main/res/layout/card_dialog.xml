@@ -5,29 +5,33 @@
               android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="500px"
+        android:layout_width="500dp"
         android:layout_height="wrap_content"
+        android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/front"
         android:id="@+id/label_front"/>
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="80px"
+        android:layout_height="50dp"
+        android:inputType="textMultiLine"
         android:textColor="#FFFFFF"
         android:id="@+id/edit_front"
         android:layout_gravity="center_horizontal"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="500dp"
         android:layout_height="wrap_content"
+        android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/back"
         android:id="@+id/label_back"/>
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="80px"
+        android:layout_height="50dp"
+        android:inputType="textMultiLine"
         android:textColor="#FFFFFF"
         android:id="@+id/edit_back"
         android:layout_gravity="center_horizontal"/>

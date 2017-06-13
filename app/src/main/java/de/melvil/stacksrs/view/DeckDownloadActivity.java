@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import de.melvil.stacksrs.adapter.DownloadableDeckInfoAdapter;
 import de.melvil.stacksrs.model.Card;
 import de.melvil.stacksrs.model.Deck;
 import de.melvil.stacksrs.model.DeckCollection;
@@ -33,7 +34,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
     private final String SERVER_URL = "http://stacksrs.droppages.com/";
 
     private ListView deckListView;
-    private ArrayAdapter<DownloadableDeckInfo> deckListAdapter;
+    private DownloadableDeckInfoAdapter deckListAdapter;
     private List<DownloadableDeckInfo> deckNames = new ArrayList<>();
 
     private ProgressBar circle;
@@ -48,7 +49,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
         setTitle(getString(R.string.download_deck));
 
         deckListView = (ListView) findViewById(R.id.deck_list);
-        deckListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, deckNames);
+        deckListAdapter = new DownloadableDeckInfoAdapter(this, deckNames);
         deckListView.setAdapter(deckListAdapter);
 
         deckListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

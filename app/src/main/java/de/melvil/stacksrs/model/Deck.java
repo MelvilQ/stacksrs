@@ -28,6 +28,7 @@ public class Deck {
     private List<Card> stack = new ArrayList<>();
 
     private static Random random = new Random(System.currentTimeMillis());
+    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     @SuppressWarnings("unused") // this constructor is necessary because of GSON
     public Deck() {
@@ -41,16 +42,13 @@ public class Deck {
     }
 
     public static Deck loadDeck(String name) throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         File file = new File(Environment.getExternalStorageDirectory()
                 + "/StackSRS/" + name + ".json");
         return gson.fromJson(FileUtils.readFileToString(file, Charset.forName("UTF-8")), Deck.class);
-
     }
 
     public void saveDeck() {
         try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             File file = new File(Environment.getExternalStorageDirectory()
                     + "/StackSRS/" + name + ".json");
             FileUtils.writeStringToFile(file, gson.toJson(this), Charset.forName("UTF-8"));

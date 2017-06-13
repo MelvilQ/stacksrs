@@ -90,13 +90,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
-                builder.setNeutralButton(getString(R.string.yes_level_0), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        downloadDeck(deckInfo.file, 0);
-                        dialog.dismiss();
-                    }
-                });
-                builder.setPositiveButton(getString(R.string.yes_level_2), new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getString(R.string.download_deck), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         downloadDeck(deckInfo.file, 2);
                         dialog.dismiss();

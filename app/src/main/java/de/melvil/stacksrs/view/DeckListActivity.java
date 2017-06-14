@@ -4,6 +4,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Environment;
+import android.support.v4.os.EnvironmentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -106,13 +110,22 @@ public class DeckListActivity extends AppCompatActivity {
 
     public void reloadDeckList() {
         try {
-            File stackSRSDir = getApplicationContext().getDir("StackSRS", MODE_PRIVATE);
+            File stackSRSDir = provideStackSRSDir();
             deckCollection.reload(stackSRSDir);
         } catch(IOException e){
             Toast.makeText(this, getString(R.string.collection_could_not_be_loaded),
                     Toast.LENGTH_SHORT).show();
         }
         deckListAdapter.notifyDataSetChanged();
+    }
+
+    private File provideStackSRSDir(){
+        // if there is (possibly emulated) external storage available, we use it
+        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
+            return getApplicationContext().getExternalFilesDir(null);
+        } else { // otherwise we use an internal directory without access from the outside
+            return getApplicationContext().getDir("StackSRS", MODE_PRIVATE);
+        }
     }
 
     public void showNewDeckDialog(){

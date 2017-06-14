@@ -42,15 +42,13 @@ public class Deck {
     }
 
     public static Deck loadDeck(String name) throws IOException {
-        File file = new File(Environment.getExternalStorageDirectory()
-                + "/StackSRS/" + name + ".json");
+        File file = new File(DeckCollection.stackSRSDir + "/" + name + ".json");
         return gson.fromJson(FileUtils.readFileToString(file, Charset.forName("UTF-8")), Deck.class);
     }
 
     public void saveDeck() {
         try {
-            File file = new File(Environment.getExternalStorageDirectory()
-                    + "/StackSRS/" + name + ".json");
+            File file = new File(DeckCollection.stackSRSDir + "/" + name + ".json");
             FileUtils.writeStringToFile(file, gson.toJson(this), Charset.forName("UTF-8"));
             saveStatistics();
         } catch (IOException e) {
@@ -58,10 +56,10 @@ public class Deck {
         }
     }
 
-    public void saveStatistics() {
+    private void saveStatistics() {
         try {
             Properties stats = new Properties();
-            File statsFile = new File(Environment.getExternalStorageDirectory() + "/StackSRS/stats");
+            File statsFile = new File(DeckCollection.stackSRSDir + "/stats");
             if (!statsFile.exists()) // create stats file if it does not exist
                 statsFile.createNewFile();
             stats.load(new FileReader(statsFile));
@@ -93,7 +91,7 @@ public class Deck {
     }
 
     public void changeName(String newDeckName){
-        File oldFile = new File(Environment.getExternalStorageDirectory()
+        File oldFile = new File(Environment.getDataDirectory()
                 + "/StackSRS/" + name + ".json");
         oldFile.delete();
         name = newDeckName;

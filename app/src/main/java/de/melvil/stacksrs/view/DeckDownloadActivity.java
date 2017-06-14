@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -33,7 +32,6 @@ public class DeckDownloadActivity extends AppCompatActivity {
 
     private final String SERVER_URL = "http://stacksrs.droppages.com/";
 
-    private ListView deckListView;
     private DownloadableDeckInfoAdapter deckListAdapter;
     private List<DownloadableDeckInfo> deckNames = new ArrayList<>();
 
@@ -48,7 +46,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
 
         setTitle(getString(R.string.download_deck));
 
-        deckListView = (ListView) findViewById(R.id.deck_list);
+        ListView deckListView = (ListView) findViewById(R.id.deck_list);
         deckListAdapter = new DownloadableDeckInfoAdapter(this, deckNames);
         deckListView.setAdapter(deckListAdapter);
 
@@ -59,7 +57,7 @@ public class DeckDownloadActivity extends AppCompatActivity {
                 // check if there already is a deck with the same name
                 DeckCollection deckCollection = new DeckCollection();
                 try {
-                    deckCollection.reload();
+                    deckCollection.reload(DeckCollection.stackSRSDir);
                 } catch(IOException e){
                     e.printStackTrace();
                 }

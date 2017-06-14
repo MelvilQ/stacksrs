@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
 
 import de.melvil.stacksrs.adapter.DeckInfoAdapter;
@@ -105,7 +106,8 @@ public class DeckListActivity extends AppCompatActivity {
 
     public void reloadDeckList() {
         try {
-            deckCollection.reload();
+            File stackSRSDir = getApplicationContext().getDir("StackSRS", MODE_PRIVATE);
+            deckCollection.reload(stackSRSDir);
         } catch(IOException e){
             Toast.makeText(this, getString(R.string.collection_could_not_be_loaded),
                     Toast.LENGTH_SHORT).show();

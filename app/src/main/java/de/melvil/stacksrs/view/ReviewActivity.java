@@ -283,7 +283,7 @@ public class ReviewActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     DeckCollection deckCollection = new DeckCollection();
                     try {
-                        deckCollection.reload();
+                        deckCollection.reload(DeckCollection.stackSRSDir);
                     } catch (IOException e){
                         e.printStackTrace();
                     }

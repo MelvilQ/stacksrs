@@ -120,6 +120,10 @@ public class ReviewActivity extends AppCompatActivity {
     protected void onPause(){
         super.onPause();
         deck.saveDeck();
+        if(tts != null){
+            tts.shutdown();
+            tts = null;
+        }
     }
 
     private void showNextCard(){

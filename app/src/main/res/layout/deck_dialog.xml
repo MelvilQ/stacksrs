@@ -15,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:inputType="text"
-        android:textColor="#FFFFFF"
         android:id="@+id/edit_deck_name"
         android:layout_gravity="center_horizontal"/>
 
@@ -30,7 +29,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:inputType="text"
-        android:textColor="#FFFFFF"
         android:id="@+id/edit_language"
         android:layout_gravity="center_horizontal"/>
 
@@ -45,7 +43,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:inputType="text"
-        android:textColor="#FFFFFF"
         android:id="@+id/edit_accent"
         android:layout_gravity="center_horizontal"/>
 

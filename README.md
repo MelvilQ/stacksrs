@@ -34,6 +34,9 @@ Think of the deck as a stack (hence the name *StackSRS*;). You are always tested
 
 where *strength* is the number of consecutive times that you knew the correct answer. In other words: After the first time you answer correct, the card will arrive again after 8 other cards, the second time after 32 other cards, the third time after 128 cards, and so on. If you answer wrong, the strength is reduced by 2 levels (it's not set to 0).
 
+### What do the numbers next to the decks stand for?
+In the deck list next to each deck, there is a blue, a red and a green number. The blue number shows how many cards a deck has, the red number shows how many of these cards are still considered as *unknown* (because they have a strength of 0, 1 or 2), and the green number how many cards are considered as *known* (strength of 3 and above).
+
 ### I want to share a deck with other users. What can I do?
-The deck files are JSON files. You can find them in the directory *Android/data/de.melvil.stacksrs/files* on the primary external storage of your device. If you want to share a deck that you have created, so that everyone can profit from it, you can send the deck file to [my email](mailto:patpp17@web.de) (please also add a short description of the deck). After having a look at it I will publish it in the download section.
+The deck files are JSON files. You can find them in the directory *Android/data/de.melvil.stacksrs/files* on the primary external storage of your device. If you want to share a deck that you have created, so that everyone can profit from it, you can send the deck file to [my email](mailto:patpp17@web.de) (please also add a short description). After having a look at it I will publish it in the download section.
 

@@ -6,6 +6,7 @@ StackSRS is a flashcard app for Android which helps you to build up a strong act
 
 ### Which features does StackSRS have?
 * You can create, modify and delete decks and flashcards.
+* Learning and reviewing using a simple Spaced Repetition algorithm.
 * You can browse through the cards of a deck and search cards by term.
 * There is a download function to import pre-made decks (at the moment there are just some decks for the Duolingo courses for German speakers, more is to come).
 * The answers can be read out by Text-to-Speech (a voice for the target language has to be installed on the device).

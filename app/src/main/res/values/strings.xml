@@ -69,6 +69,6 @@
     <string name="deck_name">Deck Name</string>
     <string name="language_back">Back Language (e.g. \"en\")</string>
     <string name="accent_optional">Accent (e.g. \"US\", \"GB\")</string>
-    <string name="read_back_aloud">Read Back Aloud</string>
+    <string name="read_back_aloud">Read back aloud</string>
 
 </resources>

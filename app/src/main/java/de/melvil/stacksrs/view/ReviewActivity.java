@@ -82,6 +82,8 @@ public class ReviewActivity extends AppCompatActivity {
         setTitle(deckName);
         try {
             deck = Deck.loadDeck(deckName);
+            if(!deck.isUsingTTS() && !deck.getLanguage().equals("") && deck.isNew())
+                askForTTSActivation();
             if(deck.isUsingTTS())
                 initTTS();
             showNextCard();
@@ -90,6 +92,27 @@ public class ReviewActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             finish();
         }
+    }
+
+    private void askForTTSActivation(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.activate_tts_new_deck));
+        builder.setMessage(getString(R.string.want_activate_tts));
+        builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                deck.activateTTS();
+                initTTS();
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     private void initTTS(){

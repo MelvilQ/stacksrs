@@ -28,6 +28,8 @@
     <string name="back_is_empty">Back is empty.</string>
     <string name="really_delete_card">Do you really want to delete this card?</string>
     <string name="cannot_delete_last_card">The last card can\'t be deleted!</string>
+    <string name="activate_tts_new_deck">Activate Text-to-Speech?</string>
+    <string name="want_activate_tts">Read answers aloud during learning?</string>
 
     <!-- deck list dialogs -->
     <string name="collection_could_not_be_loaded">Unable to load deck collection...</string>

@@ -218,4 +218,16 @@ public class Deck {
         return result;
     }
 
+    public boolean isNew(){
+        // we consider a deck as new if all cards are level 2
+        int level = stack.get(0).getLevel();
+        if(level != 0 && level != 2)
+            return false;
+        for(Card c: stack){
+            if(c.getLevel() != level)
+                return false;
+        }
+        return true;
+    }
+
 }

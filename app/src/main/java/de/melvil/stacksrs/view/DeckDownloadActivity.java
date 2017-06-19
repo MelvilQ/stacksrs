@@ -28,6 +28,10 @@ import de.melvil.stacksrs.model.Deck;
 import de.melvil.stacksrs.model.DeckCollection;
 import de.melvil.stacksrs.model.DownloadableDeckInfo;
 
+/**
+ * This activity connects to the deck server and presents all downloadable decks along with
+ * descriptions. The user can download a deck by clicking on it.
+ */
 public class DeckDownloadActivity extends AppCompatActivity {
 
     private final String SERVER_URL = "http://stacksrs.droppages.com/";

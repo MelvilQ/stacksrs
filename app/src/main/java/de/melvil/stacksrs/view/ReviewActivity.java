@@ -24,6 +24,13 @@ import de.melvil.stacksrs.model.Card;
 import de.melvil.stacksrs.model.Deck;
 import de.melvil.stacksrs.model.DeckCollection;
 
+/**
+ * The ReviewActivity is the activity where the actual learning takes place.
+ * The procedure is the following: First, the front of the card is shown and the user has to figure
+ * out the answer. Then he clicks on the "Show Answer" button, the answer is shown and the user can
+ * decide for himself if his answer was correct enough. After that, the card is put back in the deck
+ * and the next card is shown.
+ */
 public class ReviewActivity extends AppCompatActivity {
 
     private TextView frontText;

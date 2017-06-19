@@ -42,12 +42,13 @@ public class Deck {
     }
 
     public static Deck loadDeck(String name) throws IOException {
+        // load deck from file using GSON
         File file = new File(DeckCollection.stackSRSDir + "/" + name + ".json");
         return gson.fromJson(FileUtils.readFileToString(file, Charset.forName("UTF-8")), Deck.class);
     }
 
     public void saveDeck() {
-        try {
+        try {   // save deck to file using GSON
             File file = new File(DeckCollection.stackSRSDir + "/" + name + ".json");
             FileUtils.writeStringToFile(file, gson.toJson(this), Charset.forName("UTF-8"));
             saveStatistics();
@@ -57,7 +58,7 @@ public class Deck {
     }
 
     private void saveStatistics() {
-        try {
+        try {   // adding the statistics of this deck to the global stats file
             Properties stats = new Properties();
             File statsFile = new File(DeckCollection.stackSRSDir + "/stats");
             if (!statsFile.exists()) // create stats file if it does not exist
@@ -91,9 +92,11 @@ public class Deck {
     }
 
     public void changeName(String newDeckName){
+        // delete old file
         File oldFile = new File(Environment.getDataDirectory()
                 + "/StackSRS/" + name + ".json");
         oldFile.delete();
+        // create new file
         name = newDeckName;
         saveDeck();
     }
@@ -104,20 +107,28 @@ public class Deck {
         return stack.get(0);
     }
 
-    public void putReviewedCardBack(boolean right) {
+    public void putReviewedCardBack(boolean correct) {
         if (stack.isEmpty())
             return;
         Card card = stack.remove(0);
-        if (right) {
+        if (correct) {
             card.increaseLevel();
             int newPos;
-            if (card.getLevel() >= 10)
+            if (card.getLevel() >= 10) {
                 newPos = Integer.MAX_VALUE;
-            else
+            } else {
+                // this is the magic SRS formula:
+                // level 1 => 8 cards later
+                // level 2 => 32 cards later
+                // level 3 => 128 cards later
+                // and so on...
                 newPos = 1 << (card.getLevel() * 2 + 2);
+            }
+            // adding some randomness so that it doesn't get too predictable
             newPos = newPos + random.nextInt((newPos / 3) + 1) - (newPos / 3);
             stack.add(Math.min(stack.size(), newPos), card);
         } else {
+            // if the answer was wrong, the card always comes up again after three other cards
             card.decreaseLevel();
             stack.add(Math.min(stack.size(), 3), card);
         }
@@ -170,7 +181,7 @@ public class Deck {
 
     public String getLanguage(){
         if(language != null)
-            return language.toLowerCase();
+            return language.toLowerCase();  // language codes are always lower case
         else
             return "";
     }
@@ -181,7 +192,7 @@ public class Deck {
 
     public String getAccent(){
         if(accent != null)
-            return accent.toUpperCase();
+            return accent.toUpperCase();    // country codes are always upper case
         else
             return "";
     }
@@ -196,7 +207,7 @@ public class Deck {
     }
 
     public void resetStrength(int level) {
-        for (Card c : stack) {
+        for (Card c : stack) {  // setting all cards to the given level
             c.resetLevel(level);
         }
         saveDeck();
@@ -212,7 +223,7 @@ public class Deck {
         for (Card c : stack) {
             if (c.contains(searchTerm))
                 result.add(c);
-            if (result.size() >= maxResults)    // limit result to 100
+            if (result.size() >= maxResults)    // limit result set
                 return result;
         }
         return result;

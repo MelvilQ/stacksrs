@@ -12,6 +12,9 @@ import java.util.List;
 import de.melvil.stacksrs.model.DeckInfo;
 import de.melvil.stacksrs.view.R;
 
+/**
+ * Adapter class to display deck info (name and statistics) in the list view of DeckListActivity
+ */
 public class DeckInfoAdapter extends ArrayAdapter<DeckInfo> {
 
     private List<DeckInfo> deckInfoList;

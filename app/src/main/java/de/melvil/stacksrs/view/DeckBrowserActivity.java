@@ -22,8 +22,12 @@ import java.util.List;
 
 import de.melvil.stacksrs.model.Card;
 import de.melvil.stacksrs.model.Deck;
-import de.melvil.stacksrs.model.DeckCollection;
 
+/**
+ * The deck browser is a tool to search for specific cards and to modify/delete them easily. All
+ * cards are presented in a list view. It is also possible to shuffle the deck and to reset the
+ * levels of the cards.
+ */
 public class DeckBrowserActivity extends AppCompatActivity {
 
     private static final int MAX_RESULTS = 200;
@@ -31,7 +35,6 @@ public class DeckBrowserActivity extends AppCompatActivity {
     private String deckName;
     private Deck deck;
 
-    private ListView cardList;
     private ArrayAdapter<Card> cardAdapter;
     private List<Card> cards = new ArrayList<>();
 
@@ -40,7 +43,7 @@ public class DeckBrowserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deck_browser);
 
-        cardList = (ListView) findViewById(R.id.card_list);
+        ListView cardList = (ListView) findViewById(R.id.card_list);
         cardAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, cards);
         cardList.setAdapter(cardAdapter);
 

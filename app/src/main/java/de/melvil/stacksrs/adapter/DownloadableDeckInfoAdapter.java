@@ -12,6 +12,9 @@ import java.util.List;
 import de.melvil.stacksrs.model.DownloadableDeckInfo;
 import de.melvil.stacksrs.view.R;
 
+/**
+ * Adapter class to display deck info (name, description) in the list view of DeckDownloadActivity
+ */
 public class DownloadableDeckInfoAdapter extends ArrayAdapter<DownloadableDeckInfo> {
 
     private List<DownloadableDeckInfo> deckInfoList;

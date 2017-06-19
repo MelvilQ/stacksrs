@@ -4,10 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.MediaScannerConnection;
-import android.net.Uri;
 import android.os.Environment;
-import android.support.v4.os.EnvironmentCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,9 +24,13 @@ import de.melvil.stacksrs.model.Card;
 import de.melvil.stacksrs.model.Deck;
 import de.melvil.stacksrs.model.DeckCollection;
 
+/**
+ * The DeckListActivity is the entry screen of StackSRS and shows all decks in a list view. Next to
+ * the name of each deck, the total number of cards (blue), the number of remaining cards to learn
+ * (red) and the number of cards already mastered (green) is displayed.
+ */
 public class DeckListActivity extends AppCompatActivity {
 
-    private ListView deckListView;
     private DeckInfoAdapter deckListAdapter;
     private DeckCollection deckCollection = new DeckCollection();
 
@@ -46,7 +47,7 @@ public class DeckListActivity extends AppCompatActivity {
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
-        deckListView = (ListView) findViewById(R.id.deck_list);
+        ListView deckListView = (ListView) findViewById(R.id.deck_list);
         deckListAdapter = new DeckInfoAdapter(this, deckCollection.getDeckInfos());
         deckListView.setAdapter(deckListAdapter);
 

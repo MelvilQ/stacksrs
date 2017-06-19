@@ -49,6 +49,9 @@ public class Card {
     }
 
     public String toString(){
+        // formatting front and back to display cards in the deck browser
+        // first line: front, second line: back
+        // removing all newline characters and limiting the length
         String f = front.replace("\n", " ");
         if(f.length() >= 40)
             f = f.substring(0, Math.min(37, f.length())) + "...";

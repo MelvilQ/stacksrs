@@ -13,7 +13,7 @@ import java.util.Properties;
 
 public class DeckCollection {
 
-    public static File stackSRSDir;
+    public static File stackSRSDir; // location of the deck files, also directly used by activities
 
     private final List<String> deckNames = new ArrayList<>();
     private final List<DeckInfo> deckInfos = new ArrayList<>();
@@ -21,6 +21,7 @@ public class DeckCollection {
     public void reload(File dir) throws IOException {
         deckNames.clear();
         deckInfos.clear();
+        // scanning the folder for deck files
         stackSRSDir = dir;
         File[] deckFiles = stackSRSDir.listFiles();
         if(deckFiles == null){
@@ -66,6 +67,7 @@ public class DeckCollection {
     }
 
     public boolean isIllegalDeckName(String deckName){
+        // we allow all unicode letters, numbers, spaces and some other characters
         return !deckName.matches("^[\\p{L}0-9 \\-_.,()]+$");
     }
 

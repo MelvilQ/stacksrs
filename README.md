@@ -1,6 +1,7 @@
 # StackSRS - A simple Spaced Repetition app for Android
 StackSRS is a flashcard app for Android which helps you to build up a strong active vocabulary in your target language. It uses a simple spaced-repetition algorithm, based on the place of a card in the deck, rather than a time-based algorithm (like SuperMemo2). I created StackSRS because I wished to have something *more minimalistic* and *easier to use* than Anki for my own language learning.
 
+[![Google Play Link](https://play.google.com/intl/en_us/badges/images/badge_new.png)](https://play.google.com/store/apps/details?id=de.melvil.stacksrs)
 
 ## F.A.Q.
 

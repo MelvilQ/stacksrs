@@ -47,10 +47,13 @@ public class Deck {
         return gson.fromJson(FileUtils.readFileToString(file, Charset.forName("UTF-8")), Deck.class);
     }
 
+    public File getDeckFile(){
+        return new File(DeckCollection.stackSRSDir + "/" + name + ".json");
+    }
+
     public void saveDeck() {
         try {   // save deck to file using GSON
-            File file = new File(DeckCollection.stackSRSDir + "/" + name + ".json");
-            FileUtils.writeStringToFile(file, gson.toJson(this), Charset.forName("UTF-8"));
+            FileUtils.writeStringToFile(getDeckFile(), gson.toJson(this), Charset.forName("UTF-8"));
             saveStatistics();
         } catch (IOException e) {
             e.printStackTrace();
@@ -93,9 +96,7 @@ public class Deck {
 
     public void changeName(String newDeckName){
         // delete old file
-        File oldFile = new File(Environment.getDataDirectory()
-                + "/StackSRS/" + name + ".json");
-        oldFile.delete();
+        getDeckFile().delete();
         // create new file
         name = newDeckName;
         saveDeck();

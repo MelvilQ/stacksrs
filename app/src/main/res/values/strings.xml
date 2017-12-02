@@ -59,6 +59,7 @@
     <!-- review activity layout -->
     <string name="correct">Correct</string>
     <string name="wrong">Wrong</string>
+    <string name="speak_answer">Speak</string>
     <string name="show_answer">Show Answer</string>
 
     <!-- deck list layout -->

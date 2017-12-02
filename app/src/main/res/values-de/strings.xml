@@ -58,6 +58,7 @@
     <!-- review activity layout -->
     <string name="correct">Richtig</string>
     <string name="wrong">Falsch</string>
+    <string name="speak_answer">Vorlesen</string>
     <string name="show_answer">Antwort zeigen</string>
 
     <!-- deck list layout -->

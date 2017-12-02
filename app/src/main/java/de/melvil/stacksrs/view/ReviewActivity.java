@@ -37,6 +37,7 @@ public class ReviewActivity extends AppCompatActivity {
     private TextView backText;
     private Button wrongButton;
     private Button answerButton;
+    private Button speakButton;
     private Button correctButton;
 
     private String deckName;
@@ -53,6 +54,7 @@ public class ReviewActivity extends AppCompatActivity {
         backText = (TextView) findViewById(R.id.text_back);
         wrongButton = (Button) findViewById(R.id.button_wrong);
         answerButton = (Button) findViewById(R.id.button_answer);
+        speakButton = (Button) findViewById(R.id.button_speak);
         correctButton = (Button) findViewById(R.id.button_correct);
 
         wrongButton.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +75,12 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showBack();
+            }
+        });
+        speakButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                speakWord(backText.getText().toString());
             }
         });
 
@@ -162,6 +170,7 @@ public class ReviewActivity extends AppCompatActivity {
         wrongButton.setVisibility(View.GONE);
         correctButton.setVisibility(View.GONE);
         answerButton.setVisibility(View.VISIBLE);
+        speakButton.setVisibility(View.GONE);
     }
 
     private void showBack(){
@@ -171,8 +180,10 @@ public class ReviewActivity extends AppCompatActivity {
         correctButton.setVisibility(View.VISIBLE);
         answerButton.setVisibility(View.GONE);
 
-        if(deck.isUsingTTS())
+        if(deck.isUsingTTS()) {
+            speakButton.setVisibility(View.VISIBLE);
             speakWord(back);
+        }
     }
 
     private void speakWord(String text){

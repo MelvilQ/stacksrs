@@ -64,6 +64,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="#bdc3c7"
+            android:text="@string/speak_answer"
+            android:id="@+id/button_speak"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:background="#00c853"

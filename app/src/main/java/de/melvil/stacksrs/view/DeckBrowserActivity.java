@@ -3,6 +3,7 @@ package de.melvil.stacksrs.view;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -121,6 +122,8 @@ public class DeckBrowserActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         deckName = getIntent().getStringExtra("deck name");
         setTitle(deckName);

@@ -2,6 +2,7 @@ package de.melvil.stacksrs.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -93,6 +94,8 @@ public class DeckDownloadActivity extends AppCompatActivity {
         });
 
         circle = (ProgressBar) findViewById(R.id.circle);
+
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
     }
 
     @Override

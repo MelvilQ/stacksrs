@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Environment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -107,6 +108,8 @@ public class DeckListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
     }
 
     @Override

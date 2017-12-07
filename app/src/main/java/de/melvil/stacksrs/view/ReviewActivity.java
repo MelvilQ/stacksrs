@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -83,6 +84,8 @@ public class ReviewActivity extends AppCompatActivity {
                 speakWord(backText.getText().toString());
             }
         });
+
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         deckName = getIntent().getStringExtra("deck name");
     }

@@ -207,6 +207,11 @@ public class Deck {
         saveDeck();
     }
 
+    public void reverseDeck() {
+        Collections.reverse(stack);
+        saveDeck();
+    }
+
     public void resetStrength(int level) {
         for (Card c : stack) {  // setting all cards to the given level
             c.resetLevel(level);

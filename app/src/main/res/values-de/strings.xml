@@ -19,6 +19,7 @@
     <string name="search_card">Karte suchen</string>
     <!--<string name="add_new_card">Add New Card</string>-->
     <string name="shuffle_deck">Deck mischen</string>
+    <string name="reverse_deck">Kartenreihenfolge umkehren</string>
     <string name="reset_card_strength">Kartenstärke zurücksetzen</string>
 
     <!-- review activity dialogs -->
@@ -42,6 +43,7 @@
     <string name="edit_card">Karte editieren</string>
     <string name="delete_card">Karte löschen</string>
     <string name="really_shuffle_deck">Willst du das Deck wirklich mischen?</string>
+    <string name="really_reverse_deck">Willst du die Reihenfolge der Karten im Deck wirklich umkehren?</string>
     <string name="really_reset_strength">Stärke aller Karten zurücksetzen?</string>
     <string name="yes_level_0">Ja, auf Level 0</string>
     <string name="yes_level_2">Ja, auf Level 2</string>

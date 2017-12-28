@@ -20,6 +20,7 @@
     <string name="search_card">Search Card</string>
     <!--<string name="add_new_card">Add New Card</string>-->
     <string name="shuffle_deck">Shuffle Deck</string>
+    <string name="reverse_deck">Reverse Card Order</string>
     <string name="reset_card_strength">Reset Card Strength</string>
 
     <!-- review activity dialogs -->
@@ -43,6 +44,7 @@
     <string name="edit_card">Edit Card</string>
     <string name="delete_card">Delete Card</string>
     <string name="really_shuffle_deck">Do you really want to shuffle the deck?</string>
+    <string name="really_reverse_deck">Do you really want to reverse the order of the cards?</string>
     <string name="really_reset_strength">Reset the strength of all cards?</string>
     <string name="yes_level_0">Yes, all cards Level 0</string>
     <string name="yes_level_2">Yes, all cards Level 2</string>

@@ -14,6 +14,10 @@
         android:title="@string/shuffle_deck"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_reverse"
+        android:title="@string/reverse_deck"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_reset"
         android:title="@string/reset_card_strength"
         app:showAsAction="never" />

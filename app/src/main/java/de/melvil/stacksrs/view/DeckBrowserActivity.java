@@ -224,6 +224,25 @@ public class DeckBrowserActivity extends AppCompatActivity {
             });
             AlertDialog alert = builder.create();
             alert.show();
+        } else if(item.getItemId() == R.id.action_reverse){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(getString(R.string.reverse_deck));
+            builder.setMessage(getString(R.string.really_reverse_deck));
+            builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    deck.reverseDeck();
+                    displayCardList("");
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
         } else if(item.getItemId() == R.id.action_reset){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getString(R.string.reset_card_strength));

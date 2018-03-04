@@ -17,7 +17,7 @@ StackSRS is a flashcard app for Android which helps you to build up a strong act
 
 * The card content is restricted to text. Images and sound files are not supported.
 * Automated deck import from CSV is not yet implemented, but planned in the future. 
-* No server synchronization (but you can backup your decks by copying the deck files in the *StackSRS* directory). 
+* No server synchronization (but you can backup and share your decks via email, Dropbox, Google Drive and other services, which is explained [here](#i-want-to-share-a-deck-with-other-users-what-can-i-do)). 
 * No other statistics than the number of mastered and remaining cards per deck (in my experience, too many statistics are not helpful at all, but rather distracting).
 
 ### What is Spaced Repetition and why is it a good idea?
@@ -40,5 +40,5 @@ where *strength* is the number of consecutive times that you knew the correct an
 In the deck list next to each deck, there is a blue, a red and a green number. The blue number shows how many cards a deck has, the red number shows how many of these cards are still considered as *unknown* (because they have a strength of 0, 1 or 2), and the green number how many cards are considered as *known* (strength of 3 and above).
 
 ### I want to share a deck with other users. What can I do?
-The deck files are JSON files. You can find them in the directory *Android/data/de.melvil.stacksrs/files* on the primary external storage of your device. If you want to share a deck that you have created, so that everyone can profit from it, you can send the deck file to [my email](mailto:patpp17@web.de) (please also add a short description). After having a look at it I will publish it in the download section.
+You can backup and share a deck by opening the deck, going to the deck browser and choosing "Share Deck" in the action menu. Then a dialogue should open, in which you can pick a method, for example "Send as email attachment" or "Upload into Dropbox". The options that you have depend on your phone and what is installed there. If you want to share a deck that you have created, so that everyone can profit from it, you can send the deck file to [my email](mailto:patpp17@web.de). Please also add a short description in the email. After having a look at it I will publish it in the download section.
 

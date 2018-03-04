@@ -60,6 +60,16 @@ public class Deck {
         }
     }
 
+    public String getDeckContentAsCsvString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(name).append("\n"); // first line: deck title
+        sb.append("\t").append(language).append("\n"); // second line: column headers
+        for(Card c : stack){ // one csv line for each card
+            sb.append(c.getFront()).append("\t").append(c.getBack()).append("\n");
+        }
+        return sb.toString();
+    }
+
     private void saveStatistics() {
         try {   // adding the statistics of this deck to the global stats file
             Properties stats = new Properties();

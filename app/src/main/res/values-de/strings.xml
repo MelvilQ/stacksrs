@@ -47,6 +47,8 @@
     <string name="really_reset_strength">Stärke aller Karten zurücksetzen?</string>
     <string name="yes_level_0">Ja, auf Level 0</string>
     <string name="yes_level_2">Ja, auf Level 2</string>
+    <string name="share_deck">Deck teilen</string>
+    <string name="shared_stacksrs_deck">Geteiltes StackSRS-Deck: %1$s</string>
 
     <!-- deck download dialogs -->
     <string name="could_not_load_deck_list_from_server">Deck-Liste konnte nicht vom Server geladen werden.</string>

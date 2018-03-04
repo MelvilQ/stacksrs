@@ -3,6 +3,7 @@ package de.melvil.stacksrs.view;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -267,6 +268,16 @@ public class DeckBrowserActivity extends AppCompatActivity {
             });
             AlertDialog alert = builder.create();
             alert.show();
+        } else if(item.getItemId() == R.id.action_share){
+            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            sharingIntent.putExtra(Intent.EXTRA_TITLE, R.string.share_deck);
+            sharingIntent.putExtra(Intent.EXTRA_SUBJECT,
+                    getResources().getString(R.string.shared_stacksrs_deck, deck.getName()));
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT,
+                    deck.getDeckContentAsCsvString());
+            startActivity(Intent.createChooser(sharingIntent,
+                    getResources().getString(R.string.share_deck)));
         }
         return true;
     }

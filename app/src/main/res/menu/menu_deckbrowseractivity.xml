@@ -21,4 +21,8 @@
         android:id="@+id/action_reset"
         android:title="@string/reset_card_strength"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_share"
+        android:title="@string/share_deck"
+        app:showAsAction="never" />
 </menu>

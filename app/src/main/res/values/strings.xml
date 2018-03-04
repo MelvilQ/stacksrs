@@ -48,6 +48,8 @@
     <string name="really_reset_strength">Reset the strength of all cards?</string>
     <string name="yes_level_0">Yes, all cards Level 0</string>
     <string name="yes_level_2">Yes, all cards Level 2</string>
+    <string name="share_deck">Share Deck</string>
+    <string name="shared_stacksrs_deck">Shared StackSRS deck: %1$s</string>
 
     <!-- deck download dialogs -->
     <string name="could_not_load_deck_list_from_server">Could not load deck list from server.</string>

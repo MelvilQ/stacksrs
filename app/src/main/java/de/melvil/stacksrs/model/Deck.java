@@ -129,9 +129,9 @@ public class Deck {
                 newPos = Integer.MAX_VALUE;
             } else {
                 // this is the magic SRS formula:
-                // level 1 => 8 cards later
-                // level 2 => 32 cards later
-                // level 3 => 128 cards later
+                // level 1 => 16 cards later
+                // level 2 => 64 cards later
+                // level 3 => 256 cards later
                 // and so on...
                 newPos = 1 << (card.getLevel() * 2 + 2);
             }

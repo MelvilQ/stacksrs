@@ -32,9 +32,9 @@ I usually learn vocabulary only when I have dead time (sitting in a train or bus
 ### How does the spaced repetition algorithm of StackSRS work exactly?
 Think of the deck as a stack (hence the name *StackSRS*;). You are always tested with the top card of the stack. After showing the answer, you tell the app if you've answered correct or wrong. If you say *wrong*, the card is put back in the stack and will arrive again after three other cards. If you say *correct*, the card is put further back in the stack. Now it gets a little technical. The position is determined by the following formula: 
 
-**position** = 2 * 4^**strength**,
+**position** = 4^(**strength** + 1),
 
-where *strength* is the number of consecutive times that you knew the correct answer. In other words: After the first time you answer correct, the card will arrive again after 8 other cards, the second time after 32 other cards, the third time after 128 cards, and so on. If you answer wrong, the strength is reduced by 2 levels (it's not set to 0).
+where *strength* is the number of consecutive times that you knew the correct answer. In other words: After the first time you answer correct, the card will arrive again after 16 other cards, the second time after 64 other cards, the third time after 256 cards, and so on. If you answer wrong, the strength is reduced by 2 levels (it's not set to 0).
 
 ### What do the numbers next to the decks stand for?
 In the deck list next to each deck, there is a blue, a red and a green number. The blue number shows how many cards a deck has, the red number shows how many of these cards are still considered as *unknown* (because they have a strength of 0, 1 or 2), and the green number how many cards are considered as *known* (strength of 3 and above).

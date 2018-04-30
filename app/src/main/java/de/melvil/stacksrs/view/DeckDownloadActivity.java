@@ -35,7 +35,7 @@ import de.melvil.stacksrs.model.DownloadableDeckInfo;
  */
 public class DeckDownloadActivity extends AppCompatActivity {
 
-    private final String SERVER_URL = "http://stacksrs.droppages.com/";
+    private final String SERVER_URL = "https://stacksrs.droppages.com/";
 
     private DownloadableDeckInfoAdapter deckListAdapter;
     private List<DownloadableDeckInfo> deckNames = new ArrayList<>();

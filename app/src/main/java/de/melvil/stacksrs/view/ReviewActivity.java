@@ -160,7 +160,9 @@ public class ReviewActivity extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
-        deck.saveDeck();
+        if(deck != null){
+            deck.saveDeck();
+        }
         if(tts != null){
             tts.shutdown();
             tts = null;
